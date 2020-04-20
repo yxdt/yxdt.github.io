@@ -5,6 +5,8 @@ date: 2020-04-20 14:23:56 +0800
 categories: Python, Fintech
 ---
 
+{% include header.html %}
+
 # 前言：
 
 本文是用 Python 获取企业年报数据并进行企业价值分析系列文章的第一篇，主要讲述如何用 Python 从巨潮网站下载相应的企业定期报告。
@@ -21,7 +23,7 @@ categories: Python, Fintech
 
 对上市公司的价值分析主要是通过折现现金流模型 DCF（Discounted Cashflow Model），该模型的主要计算方法是将企业未来所产生的现金流量折算为当前时点的现值，即为企业的内在价值。
 
-$P=\sum_{t=1}^n\frac{CF_t}{(1+r)^t}$
+$$P=\sum_{t=1}^n\frac{CF_t}{(1+r)^t}$$
 
 2. 关于巨潮资讯 cninfo
 
