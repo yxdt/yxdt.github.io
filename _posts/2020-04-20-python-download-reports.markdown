@@ -63,9 +63,51 @@ Anaconda 作为 Python 语言的综合开发环境可谓功能强大不但免费
 财务报表下载流程逻辑本身很简单：
 
 1. 确定要下载的报表的上市公司，获取对应的代码，如：中国国旅对应的是 _601888_
-2. 打开[巨潮资讯网](http://www.cninfo.com.cn) ,在最上方的搜索框输入代码，转到对应的查询页面，通过地址栏的字符串“http://www.cninfo.com.cn/new/disclosure/stock?orgId=9900008313&stockCode=601888”获取的orgId：*9900008313*
-3. 确认下载目录和报告存放目录后，运行下载程序
-4. 下载程序会模拟人点击，仅下载上市公司的一季报、半年报、三季报、年报。
-5. PDF 文件下载后进行重命名，名称包括了年份以及报告季度，便于后续程序识别。
-6. 如果有多页，则按顺序翻页，下载全部所需报告
-7. 下载完成后，将 PDF 文件移动到存放目录以备后续报表数据识别清洗程序使用
+2. 打开[巨潮资讯网](http://www.cninfo.com.cn) ,在最上方的搜索框输入代码，转到对应的查询页面，通过地址栏的字符串“http://www.cninfo.com.cn/new/disclosure/stock?orgId=9900008313&stockCode=601888” 获取对应的 orgId：_9900008313_
+3. 确认下载目录和报告存放目录后，以及确认拷贝成功后删除下载目录的对应文件。定义并初始化下载类，并运行下载程序：
+   ```python
+   dl = PdfDownloader("601888", "9900008313", downFolder, copyToFolder, True)
+   ```
+4. 下载类 PdfDownloader 的参数分别为:
+
+   - stockCode：要下载的上市公司股票代码
+   - orgId： 对应的 orgId
+   - downFolder: 下载目录
+   - copyToFolder: 目标保存目录
+   - downloadFlag: 是否真正下载 PDF
+
+5. 下载程序会模拟人点击，仅下载上市公司的一季报、半年报、三季报、年报。
+6. PDF 文件下载后进行重命名，名称包括了年份以及报告季度，便于后续程序识别。
+7. 如果有多页，则按顺序翻页，下载全部所需报告
+8. 下载完成后，将 PDF 文件移动到存放目录以备后续报表数据识别清洗程序使用
+
+<big>2. 类结构</big>
+
+```python
+
+# 根据上市公司股票代码，在巨潮网站上下载其全部定期报告（一、三季报、半年报、年报）PDF备用
+class PdfDownloader:
+    # 类初始化
+    # stockCode：    要下载的上市公司股票代码
+    # orgId：        对应的 orgId
+    # downFolder:   下载目录
+    # copyToFolder: 目标保存目录
+    # downloadFlag: 是否真正下载 PDF
+    def __init__(self, stockCode, orgId, downFolder, copyToFolder, downloadFlag = True):
+        ...
+
+    #将下载目录下的所有文件拷贝到目标文件
+    def copyPdf(self, del_src=True):
+        ...
+
+    #下载指定上市公司的定期报告
+    def downloadReports(self):
+        ...
+
+```
+
+<big>3. 主要包简介</big>
+
+- selenium：功能强大的测试工具，这里用于从网站获取报表存放路径并下载。首先在 Anaconda 中的“Environments”下确认 selenium 包是否已经安装，如果成功安装则可以在 python 程序中进行引用。[selenium 官方网站相关文档](https://www.selenium.dev/documentation/en/)
+
+- BeautifulSoup:
