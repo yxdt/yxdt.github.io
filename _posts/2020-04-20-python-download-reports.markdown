@@ -58,7 +58,7 @@ Anaconda 作为 Python 语言的综合开发环境可谓功能强大不但免费
 
 # 四、程序及结构：
 
-<big>1. 流程说明</big>
+<big>1） 流程说明</big>
 
 财务报表下载流程逻辑本身很简单：
 
@@ -81,7 +81,7 @@ Anaconda 作为 Python 语言的综合开发环境可谓功能强大不但免费
 7. 如果有多页，则按顺序翻页，下载全部所需报告
 8. 下载完成后，将 PDF 文件移动到存放目录以备后续报表数据识别清洗程序使用
 
-<big>2. 类结构</big>
+<big>2） 类结构</big>
 
 ```python
 
@@ -106,13 +106,13 @@ class PdfDownloader:
 
 ```
 
-<big>3. 关键包简介</big>
+<big>3） 关键包简介</big>
 
 - selenium：功能强大的测试工具，这里用于从网站获取报表存放路径并下载。首先在 Anaconda 中的“Environments”下确认 selenium 包是否已经安装，如果成功安装则可以在 python 程序中进行引用。[selenium 官方网站相关文档](https://www.selenium.dev/documentation/en/)
 
 - BeautifulSoup: 通过该包可以对下载的网页进行分析，获取需要下载的报告的链接以及相关信息。当前使用的是 Beautiful Soup 4，[BeautifulSoup 官方文档](https://www.crummy.com/software/BeautifulSoup/)
 
-<big>4. 主要功能实现</big>
+<big>4） 主要功能实现</big>
 
 - 下载文件的前置条件：
 
@@ -219,7 +219,7 @@ time.sleep(5) #give you 5 seconds to click the button to allow browser to downlo
     ...
   ```
 
-<big>5. 完整源代码</big>
+# 五、完整源代码：
 
 ```python
 ## Author: T.Y.X.D
