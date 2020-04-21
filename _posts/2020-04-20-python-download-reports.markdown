@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "用Python下载上市公司定期报告"
+title: 用Python进行公司价值分析：（一）上市公司定期报告的下载
 date: 2020-04-20 14:23:56 +0800
 categories: Python, Fintech
 ---
