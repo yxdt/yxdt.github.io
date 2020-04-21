@@ -2,7 +2,7 @@
 layout: post
 title: 用Python对上市公司做价值分析：（一）上市公司定期报告的下载
 date: 2020-04-20 14:23:56 +0800
-categories: Python, Fintech
+categories: [Python, Fintech]
 ---
 
 {% include header.html %}
@@ -412,9 +412,7 @@ class PdfDownloader:
             #检测是否到最后一页
             not_last_page = False
             alllink = pagnav.find_element_by_class_name("btn-next").get_attribute('disabled')
-            print('alllink:[')
-            print(alllink)
-            print(']')
+
             if alllink == None:
                 print('found next page')
                 not_last_page = True
