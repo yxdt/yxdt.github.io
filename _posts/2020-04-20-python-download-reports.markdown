@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 用Python进行公司价值分析：（一）上市公司定期报告的下载
+title: 用Python对上市公司做价值分析：（一）上市公司定期报告的下载
 date: 2020-04-20 14:23:56 +0800
 categories: Python, Fintech
 ---
@@ -14,8 +14,10 @@ categories: Python, Fintech
 # 二、知识点:
 
 - 了解 Python 的基本语法，了解类的概念
-- 掌握爬虫库 selenium 基本用法
-- 安装了 Python 运行开发环境，如 Anaconda
+- 掌握库 selenium，BeautifulSoup 的基本用法
+- 安装 Python 运行开发环境，如 Anaconda
+- 掌握 HTML，CSS3 的基本知识
+- 对公司财务相关知识点的掌握
 
 # 三、准备工作：
 
@@ -256,278 +258,174 @@ import os
 
 class PdfDownloader:
   def __init__(self, stockCode, orgId, downFolder, copyToFolder, downloadFlag = True):
-      self.stock_code = stockCode
-      self.org_id = orgId
-      self.ju_chao = "http://www.cninfo.com.cn/new/disclosure/stock?orgId="+ orgId +"&stockCode="
-      self.base_url = 'http://www.cninfo.com.cn'
-      self.down_dir = downFolder # 'C:\\Users\\Downloads'
-                                # down_dir = "F:\\downloads"
-      self.to_dir = copyToFolder # 'f:\\work2018\\stock\\reports'
-
-      # False if you don't want to download the file
-      self.download_file = downloadFlag
-      #ju_chao = "http://www.cninfo.com.cn/new/disclosure/stock?plate=szse&orgId=9900002162&stockCode="
-      #ju_chao = "http://www.cninfo.com.cn/new/disclosure/stock?plate=sse&orgId=9900008313&stockCode="
-      #ju_chao = "http://www.cninfo.com.cn/new/disclosure/stock?orgId=9900005965&stockCode="
-
-  #def downloadPdf(driver, url, burl):
-  #    #url  = '/cninfo-new/disclosure/sse/bulletin_detail/true/63219331?announceTime=2013-10-31'
-  #    #durl = '/cninfo-new/disclosure/sse/download/63219331?announceTime=2013-10-31'
-  #    durl = url.replace('bulletin_detail/true', 'download')
-  #    driver.get(burl+durl)
+    self.stock_code = stockCode
+    self.org_id = orgId
+    self.ju_chao = "http://www.cninfo.com.cn/new/disclosure/stock?orgId="+ orgId +"&stockCode="
+    self.base_url = 'http://www.cninfo.com.cn'
+    self.down_dir = downFolder
+    self.to_dir = copyToFolder
+    # False if you don't want to download the files
+    self.download_file = downloadFlag
 
   def copyPdf(self, del_src=True):
 
-      pre = 'sz'
-      if(self.stock_code.find('60') == 0):
-          pre = 'sh'
-      stock_code1 = pre + self.stock_code[-6:] #for target_dir
-      print(stock_code1)
-      iCnt = 0
+    pre = 'sz'
+    if(self.stock_code.find('60') == 0):
+      pre = 'sh'
+    stock_code1 = pre + self.stock_code[-6:] #for target_dir
+    print(stock_code1)
+    iCnt = 0
 
-      if not os.path.exists(self.to_dir+'\\'+stock_code1):
-          os.mkdir(self.to_dir+'\\'+stock_code1)
-      if not os.path.exists(self.to_dir+'\\'+stock_code1 + '\\pdf') :
-          os.mkdir(self.to_dir+'\\' + stock_code1 + '\\pdf')
+    if not os.path.exists(self.to_dir+'\\'+stock_code1):
+      os.mkdir(self.to_dir+'\\'+stock_code1)
+    if not os.path.exists(self.to_dir+'\\'+stock_code1 + '\\pdf') :
+      os.mkdir(self.to_dir+'\\' + stock_code1 + '\\pdf')
 
-      to_dir_pdf = self.to_dir + '\\'+stock_code1+'\\pdf'
-      dirs = os.listdir(self.down_dir)
+    to_dir_pdf = self.to_dir + '\\'+stock_code1+'\\pdf'
+    dirs = os.listdir(self.down_dir)
 
-      for afile in dirs:
-          #print(type(file))
-          if afile.lower().endswith('.pdf') :
-              s_file = os.path.join(self.down_dir, afile)
-              the_year = re.findall("\d{4}", afile)[0] if len(re.findall('\d{4}', afile)) > 0 else '0000'
-              bfile = stock_code1 + the_year
-              if afile.find('摘要') > 0 :
-                  bfile = 'zz_'+ bfile + afile
-              elif afile.find('正文') > 0:
-                  bfile = 'zz_'+ bfile + afile
-              elif afile.find('更正') > 0:
-                  bfile = 'zz_' + bfile + afile
-              elif afile.find('公告') > 0:
-                  bfile = 'zz_' + bfile + afile
-              elif afile.find('半年度报告') > 0:
-                  bfile += 'q2.pdf'
-              elif afile.find('年度报告') > 0:
-                  bfile += 'q4.pdf'
-              elif afile.find('第一季度') > 0:
-                  bfile += 'q1.pdf'
-              elif afile.find('第三季度') > 0:
-                  bfile += 'q3.pdf'
-              else :
-                  bfile = 'zz_' + bfile + afile
+    for afile in dirs:
+      if afile.lower().endswith('.pdf') :
+        s_file = os.path.join(self.down_dir, afile)
+        the_year = re.findall("\d{4}", afile)[0] if len(re.findall('\d{4}', afile)) > 0 else '0000'
+        bfile = stock_code1 + the_year
+        if afile.find('摘要') > 0 :
+            bfile = 'zz_'+ bfile + afile
+        elif afile.find('正文') > 0:
+            bfile = 'zz_'+ bfile + afile
+        elif afile.find('更正') > 0:
+            bfile = 'zz_' + bfile + afile
+        elif afile.find('公告') > 0:
+            bfile = 'zz_' + bfile + afile
+        elif afile.find('半年度报告') > 0:
+            bfile += 'q2.pdf'
+        elif afile.find('年度报告') > 0:
+            bfile += 'q4.pdf'
+        elif afile.find('第一季度') > 0:
+            bfile += 'q1.pdf'
+        elif afile.find('第三季度') > 0:
+            bfile += 'q3.pdf'
+        else :
+            bfile = 'zz_' + bfile + afile
 
-              t_file = os.path.join(to_dir_pdf, bfile)
-              while os.path.exists(t_file) :
-                  if afile.find('更新后') > 0 :
-                      cfile = os.path.join(to_dir_pdf, 'old_' + bfile)
-                      while os.path.exists(cfile):
-                          cfile = cfile.replace('.pdf','_a.pdf')
-                      shutil.move(t_file, cfile)
-                  else :
-                      bfile = 'dup_'+bfile + afile
-                  t_file = os.path.join(to_dir_pdf, bfile)
-              shutil.move(s_file, t_file)
-              #print(s_file)
-              iCnt += 1
-              print(iCnt)
-              print(t_file)
+        t_file = os.path.join(to_dir_pdf, bfile)
+        while os.path.exists(t_file) :
+            if afile.find('更新后') > 0 :
+                cfile = os.path.join(to_dir_pdf, 'old_' + bfile)
+                while os.path.exists(cfile):
+                    cfile = cfile.replace('.pdf','_a.pdf')
+                shutil.move(t_file, cfile)
+            else :
+                bfile = 'dup_'+bfile + afile
+            t_file = os.path.join(to_dir_pdf, bfile)
+        shutil.move(s_file, t_file)
+        #print(s_file)
+        iCnt += 1
+        print(iCnt)
+        print(t_file)
 
-  def downloadReports(self): #  the_stock_code, ju_chao_url, web_url, from_dir, to_dir):
+  def downloadReports(self):
+    c5_class_name = "el-popover__reference"
+    year_report_name = "/html/body/div/div/label/span/span[@title='年报']"
+    quater_report_name = "/html/body/div/div/label/span/span[@title='半年报']"
+    half_report_name = "/html/body/div/div/label/span/span[@title='一季报']"
+    third_report_name = "/html/body/div/div/label/span/span[@title='三季报']"
 
-      #input_id = "search_input_obj"
-      #c5_class_name = "drop-down-list top-search-list"
-      #cat_list_id = 'category_list'
+    driver = webdriver.Chrome()
+    driver.get('chrome://settings/content/pdfDocuments')
+    time.sleep(5) #
 
-      c5_class_name = "el-popover__reference" #"page-more-filter"#"drop-down-title"
-      #filter_name = "分类"
-      year_report_name = "/html/body/div/div/label/span/span[@title='年报']" #'category_ndbg_szsh'
-      quater_report_name = "/html/body/div/div/label/span/span[@title='半年报']" #"半年报"#'category_yjdbg_szsh'
-      half_report_name = "/html/body/div/div/label/span/span[@title='一季报']" #'category_bndbg_szsh'
-      third_report_name = "/html/body/div/div/label/span/span[@title='三季报']" #'category_sjdbg_szsh'
-      #pdf_option = "html> body> settings-ui> settings-main> settings-basic-page> settings-section> settings-privacy-page> settings-subpage> settings-pdf-documents> settings-toggle-button"
-      #pdf_option = "/html/body/settings-ui/div/settings-main/settings-basic-page/div/settings-section/settings-privacy-page/settings-animated-pages/settings-subpage/settings-pdf-documents/settings-toggle-button"
-      pdf_option = "/html/body/settings-ui/div[@id='container']/settings-main/settings-basic-page/div[@id='basicPage']/settings-section[@section='privacy']/settings-privacy-page/settings-animated-pages/settings-subpage[@route-path='/content/pdfDocuments']/settings-pdf-documents/settings-toggle-button"
-      #             /html/body/settings-ui//div[2]/settings-main//settings-basic-page//div[1]/settings-section[3]/settings-privacy-page//settings-animated-pages/settings-subpage/settings-pdf-documents//settings-toggle-button
-      pdf_option = "/html/body/settings-ui/div"
-      #driver = webdriver.Firefox() #works but buggy
-      #driver = webdriver.Edge()
+    rptDict = {}
+    try:
+        wait = WebDriverWait(driver, 10)
+        driver.get(self.ju_chao + self.stock_code+'#')
+        driver.find_element_by_class_name(c5_class_name).click()
+        time.sleep(1)
+        driver.find_element_by_xpath(year_report_name).click()
+        time.sleep(1)
+        driver.find_element_by_xpath(quater_report_name).click()
+        time.sleep(1)
+        driver.find_element_by_xpath(half_report_name).click()
+        time.sleep(1)
+        driver.find_element_by_xpath(third_report_name).click()
+        time.sleep(5)
+        not_last_page = True
+        pdf_down_url = 'http://static.cninfo.com.cn/finalpage/'
+        while not_last_page:
+            print('loop'.center(50,'+'))
+            data = driver.page_source
+            #对html进行解析，如果提示lxml未安装，直接pip install lxml即可
+            soup=BeautifulSoup(data,'lxml')
+            pagnav = driver.find_element_by_class_name('el-pagination')
+            alllink = pagnav.find_elements_by_tag_name('li')
+            #遍历全部链接
+            rpts = soup.select('.data-detail table tbody td div a')
+            print('rpts:')
+            print(rpts)
+            if not self.download_file:
+                rpts = []
+            i = 0
+            for rpt in rpts:
+                i+=1
+                tmp_url = rpt.get('href')
+                sleepMax = 0
+                wait_pdf = True
+                annId = ''
+                annTime = ''
+                valid = False
+                rptDict[rpt.get_text()] = tmp_url
+                annIdPos = tmp_url.find('announcementId=')
+                rpt_name = rpt.get_text()
+                if rpt_name.find('浏览') >= 0:
+                    print('dup-no-need-to-download')
+                    continue
 
-      #down_dir = "f:\\work2018\\stock\\reports\\" + the_stock_code + "\\pdf"
+                if annIdPos > 0 :
+                    annIdPos += 15
+                    annIdEndPos = tmp_url.find('&', annIdPos)
+                    annId = tmp_url[annIdPos: tmp_url.find('&', annIdPos)]
 
-      #fp = webdriver.FirefoxProfile()
-      #fp = webdriver.ChromeProfile()
-      #fp.set_preference("browser.download.folderList", 2)
-      #fp.set_preference("browser.download.manager.showWhenStarting", False)
-      #fp.set_preference("browser.download.dir", down_dir)
-      #fp.set_preference("plugin.disable_full_page_plugin_for_types", "application/pdf")
-      #fp.set_preference("pdfjs.disabled", True)
-      #fp.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/pdf")
+                annTimePos = tmp_url.index('announcementTime=')
+                if (annTimePos > 0) :
+                    annTimePos += 17
+                    annTime = tmp_url[annTimePos: annTimePos+10]
 
-      #down_dir = "C:\\Users\\terry\\Downloads"
-      #down_dir = "F:\\downloads"
-      #chromeOptions = Options()
-      #profile =  {"plugins.plugins_list": [{"enabled": False, "name": "Chrome PDF Viewer"}],
-      #           "download.default_directory": self.down_dir,
-      #           "download.extensions_to_open":"",
-      #           "plugins.alwarys_open_pdf_externally": True}
-      #chromeOptions.add_experimental_option("prefs", profile)
-      #driver = webdriver.Chrome(options=chromeOptions)
+                down_file = self.down_dir+'\\'+annId+'.PDF'
+                print(os.path.isfile(down_file))
 
-      driver = webdriver.Chrome()
-      driver.get('chrome://settings/content/pdfDocuments')
-      time.sleep(5)
-      #
-      #????如何自动点击pdf按钮,更改设置??????
-      #pdfbtn = driver.find_element_by_xpath(pdf_option)
-      #print(pdfbtn)
-      #pdfbtn.click()
-      #time.sleep(30000000)
+                if (len(annId) > 0 and len(annTime) > 0 ):
+                    driver.get(pdf_down_url + annTime+'/'+annId+'.PDF')
+                    print('download it!')
+                    while (not os.path.isfile(down_file)) and wait_pdf :
+                        print('not downloaded yet, wait for a sec.')
+                        time.sleep(1)
+                        sleepMax += 1
+                        if (sleepMax > 20) :
+                            wait_pdf = False
 
-      #data = driver.page_source
-      #print(data)
-      #driver.find_element_by_tag_name('button').click()
-      #time.sleep(5)
-
-      #driver= webdriver.Firefox(fp)
-      print("download file dir:")
-      print(self.down_dir)
-      rptDict = {}
-      try:
-          wait = WebDriverWait(driver, 10)
-          driver.get(self.ju_chao + self.stock_code+'#')
-          #driver.find_element_by_class .switch_to_frame("i_nr");
-          driver.find_element_by_class_name(c5_class_name).click()
-          #driver.find_element_by_link_text(filter_name).click()
-          time.sleep(2)
-          #driver.find_element_by_link_text(year_report_name).click()
-          driver.find_element_by_xpath(year_report_name).click()
-          time.sleep(2)
-          driver.find_element_by_xpath(quater_report_name).click()
-          time.sleep(2)
-          driver.find_element_by_xpath(half_report_name).click()
-          time.sleep(2)
-          driver.find_element_by_xpath(third_report_name).click()
-          time.sleep(6)
-          not_last_page = True
-          pdf_down_url = 'http://static.cninfo.com.cn/finalpage/'
-          while not_last_page:
-              print('loop'.center(50,'+'))
-              data = driver.page_source
-              #print('data:')
-              #print(data)
-              #对html进行解析，如果提示lxml未安装，直接pip install lxml即可
-              soup=BeautifulSoup(data,'lxml')
-              #print(soup)
-              #pagnav = driver.find_element_by_id('pagination')
-              pagnav = driver.find_element_by_class_name('el-pagination')
-              alllink = pagnav.find_elements_by_tag_name('li')
-              #遍历全部链接
-              #rpts = soup.find(id='ul_his_fulltext').findChildren("li")
-              #view pdf href="/new/disclosure/detail?plate=szse&amp;stockCode=002115&amp;
-              #announcementId=22459000&amp;announcementTime=2007-04-06 06:30"
-              #download pdf http://static.cninfo.com.cn/finalpage/2007-04-06/22459000.PDF
-              #             http://static.cninfo.com.cn/finalpage/2007-04-06/22459000.PDF
-              rpts = soup.select('.data-detail table tbody td div a')
-              print('rpts:')
-              print(rpts)
-              if not self.download_file:
-                  rpts = [] # if testing not downloading , un-comment it .
-              i = 0
-              for rpt in rpts:
-                  i+=1
-                  print(i)
-                  #a = rpt.find('a')
-                  tmp_url = rpt.get('href')
-                  sleepMax = 0
-                  wait_pdf = True
-                  annId = ''
-                  annTime = ''
-                  valid = False
-                  rptDict[rpt.get_text()] = tmp_url
-                  #print(rptDict[rpt.get_text()])
-                  annIdPos = tmp_url.find('announcementId=')
-
-                  print(tmp_url)
-                  rpt_name = rpt.get_text()
-                  print(rpt_name)
-                  print(rpt_name.find('浏览'))
-                  if rpt_name.find('浏览') >= 0:
-                      print('dup-no-need to download')
-                      continue
-
-                  if annIdPos > 0 :
-                      annIdPos += 15
-                      #print(annIdPos)
-                      annIdEndPos = tmp_url.find('&', annIdPos)
-                      #print(annIdEndPos)
-                      annId = tmp_url[annIdPos: tmp_url.find('&', annIdPos)]
-                      #print('announcementId:')
-                      #print(annId)
-
-                  annTimePos = tmp_url.index('announcementTime=')
-                  if (annTimePos > 0) :
-                      annTimePos += 17
-                      annTime = tmp_url[annTimePos: annTimePos+10]
-                      #print('announcementTime:')
-                      #print(annTime)
-                  down_file = self.down_dir+'\\'+annId+'.PDF'
-                  print(os.path.isfile(down_file))
-
-                  if (len(annId) > 0 and len(annTime) > 0 ):
-                      driver.get(pdf_down_url + annTime+'/'+annId+'.PDF')
-                      print('download it!')
-                      while (not os.path.isfile(down_file)) and wait_pdf :
-                          print('not downloaded yet, wait for a sec.')
-                          time.sleep(1)
-                          sleepMax += 1
-                          if (sleepMax > 20) :
-                              wait_pdf = False
-
-                      if(os.path.isfile(down_file)) and len(rpt.get_text()) > 5 :
-                          print('found , rename')
-                          print(down_file)
-                          print(rpt.get_text())
-                          if not os.path.isfile(self.down_dir+'\\'+rpt.get_text().replace("*","_")+'.PDF'):
-                              os.rename(down_file, self.down_dir + '\\' + rpt.get_text().replace("*","_") + '.PDF')
-              #print(rptDict)
-              #检测是否到最后一页
-              not_last_page = False
-              alllink = pagnav.find_element_by_class_name("btn-next").get_attribute('disabled')
-              print('alllink:[')
-              print(alllink)
-              print(']')
-              if alllink == None:
-                  print('found next page')
-                  not_last_page = True
-                  pagnav.find_element_by_class_name("btn-next").click()
-                  time.sleep(2)
-                  wait.until(EC.presence_of_element_located((By.CLASS_NAME, "footer")))
-                  #break
-              else:
-                  print('reached last page')
-
-              #for ia in alllink:
-              #    print(ia.text)
-              #    print(ia.get_attribute('class'))
-              #    if ia.text == '>':
-              #        #print(ia.get_attribute('class').find('disabled'))
-              #        if ia.get_attribute('class').find('disabled') < 0:
-              #            print('找到下一页')
-              #            not_last_page = True
-              #            ia.click()
-              #            time.sleep(2)
-              #            wait.until(EC.presence_of_element_located((By.CLASS_NAME,"footer")))
-              #            break
-              #        else:
-              #            print('已经到达最后一页')
-      finally:
-          print('done')
-
-      time.sleep(3)
-      #将下载pdf移到对应目录下 : reports/#stock_code#/pdf/
-      self.copyPdf()
-
-print('Class Declared.')
+                    if(os.path.isfile(down_file)) and len(rpt.get_text()) > 5 :
+                        print('found , rename')
+                        print(down_file)
+                        print(rpt.get_text())
+                        if not os.path.isfile(self.down_dir+'\\'+rpt.get_text().replace("*","_")+'.PDF'):
+                            os.rename(down_file, self.down_dir + '\\' + rpt.get_text().replace("*","_") + '.PDF')
+            #检测是否到最后一页
+            not_last_page = False
+            alllink = pagnav.find_element_by_class_name("btn-next").get_attribute('disabled')
+            print('alllink:[')
+            print(alllink)
+            print(']')
+            if alllink == None:
+                print('found next page')
+                not_last_page = True
+                pagnav.find_element_by_class_name("btn-next").click()
+                time.sleep(2)
+                wait.until(EC.presence_of_element_located((By.CLASS_NAME, "footer")))
+            else:
+                print('reached last page')
+    finally:
+        print('done')
+    time.sleep(3)
+    #将下载pdf移到对应目录下 : reports/#stock_code#/pdf/
+    self.copyPdf()
 ```
