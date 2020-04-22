@@ -20,17 +20,13 @@ tag: [Python, Fintech, DCF, FCFF]
 - 掌握 HTML，CSS3 的基本知识
 - 对公司财务相关知识点的掌握
 
----
-
-excerpt_separator
-
----
-
 # 三、准备工作：
 
 <big>1.上市公司价值分析之 DCF 模型</big>
 
 对上市公司的价值分析主要是通过折现现金流模型 DCF（Discounted Cashflow Model），该模型的主要计算方法是将企业未来所产生的现金流量折算为当前时点的现值，即为企业的内在价值。
+
+<!--more-->
 
 $$P=\sum_{t=1}^n\frac{CF_t}{(1+r)^t}$$
 

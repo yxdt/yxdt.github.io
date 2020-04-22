@@ -31,6 +31,7 @@ author: "TerryㆍXD"
 logo: "logo1.png"
 # Build settings
 theme: minima
+excerpt_separator: <!--more-->
 plugins:
   - jekyll-feed
 # Exclude from processing.
