@@ -5,3 +5,5 @@
 layout: default
 title: Home
 ---
+
+{% include categories.html %}
