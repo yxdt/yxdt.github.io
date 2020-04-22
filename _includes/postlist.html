@@ -2,7 +2,7 @@
 <hr style='line-height: 1.2em;'/>
 <div id="archives">
   {% for post in site.posts%}
-  <article class="archive-item">
+  <article class="archive-item" style="margin-bottom: 2rem;">
     <h2><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></h2>
     <div class="row">
       <span class="post-excerpts col-md-10">
@@ -11,7 +11,6 @@
         <a href="{{ site.baseurl }}{{ post.url }}">阅读全文...</a>
 
       </span>
-
       <span class="post-date col-md-2" style="text-align: right;">
         <time class="post-date" datetime="{{ post.date | date:"%Y-%m-%d" }}">
           {{ post.date | date:"%Y/%m/%d" }}
