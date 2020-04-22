@@ -81,7 +81,9 @@ section.recent-posts {
   content: "";
   background-color: #f5f5f5;
 }
-
+.post-excerpts {
+  font-size: 18px;
+}
 .section-title span {
   background-color: #fff;
   position: relative;

@@ -6,7 +6,7 @@ layout: default
 title: Home
 ---
 
-{% include posts.html %}
+{% include postlist.html %}
 
 {% include categories.html %}
 
