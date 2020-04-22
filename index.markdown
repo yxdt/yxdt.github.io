@@ -6,6 +6,8 @@ layout: default
 title: Home
 ---
 
+{% include posts.html %}
+
 {% include categories.html %}
 
 {% include tagcloud.html %}
