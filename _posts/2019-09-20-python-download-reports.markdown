@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 用Python对上市公司做价值分析：（一）上市公司定期报告的下载
-date: 2020-04-20 14:23:56 +0800
+date: 2019-09-20 14:23:56 +0800
 categories: [Python, Fintech]
 tag: [Python, Fintech, DCF, FCFF]
 ---

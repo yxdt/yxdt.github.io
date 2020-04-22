@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: I think, I program, I write.
+title: Think, Program, Write
 # email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Coding in C#(ASP.Net), Javascript/TypeScript, Python etc, and in the areas of Education, Agriculture, Fintech.
