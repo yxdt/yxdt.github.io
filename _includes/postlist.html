@@ -6,7 +6,7 @@
     <h5><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></h5>
     <div class="row">
       <span class="post-excerpts col-md-10">
-        &nbsp;
+        {{post.excerpt}}
       </span>
       <span class="post-date col-md-2">
         <time class="post-date" datetime="{{ post.date | date:"%Y-%m-%d" }}">
