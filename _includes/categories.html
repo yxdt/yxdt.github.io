@@ -1,3 +1,4 @@
+<h3>文章列表</h3>
 <div id="archives">
   {% for post in site.posts%}
   <article class="archive-item">
@@ -11,8 +12,8 @@
     </p>
   </article>
   {% endfor%}
-  
-<h4>Category Cloud</h4>
+  <hr/>
+<h5>文章分类</h5>
 <ul>
 {% for category in site.categories %}
     <li style="font-size: {{ category | last | size | times: 100 | divided_by: site.categories.size }}%">
