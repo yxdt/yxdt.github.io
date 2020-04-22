@@ -905,6 +905,7 @@ h6 {
 .article-post h5,
 .article-post h6 {
   font-weight: 500;
+  font-size: 0.8em;
   margin-bottom: 1.5rem;
 }
 .article-post img.shadow {
