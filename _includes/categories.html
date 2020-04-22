@@ -1,14 +1,12 @@
-<hr/>
 <div id="categories">
-<h5>文章分类</h5>	
-<ul>	
-{% for category in site.categories %}	
-    <li style="font-size: {{ category | last | size | times: 100 | divided_by: site.categories.size }}%">	
-        <a href="/{{ category | first | slugize }}/">	
-            {{ category | first }}	
-        </a>	
-    </li>	
-{% endfor %}	
-</ul>	
-
+    <h5><span>文章分类</span></h5>
+    <ul>	
+    {% for category in site.categories %}	
+        <li style="font-size: {{ category | last | size | times: 100 | divided_by: site.categories.size }}%">	
+            <a href="/{{ category | first | slugize }}/">	
+                {{ category | first }}	
+            </a>	
+        </li>	
+    {% endfor %}	
+    </ul>	
 </div>
