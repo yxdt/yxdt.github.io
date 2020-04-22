@@ -14,7 +14,7 @@ body {
 }
 
 a {
-  color: #6fd350;
+  color: #028fcc;
 }
 a,
 a:hover {
@@ -136,7 +136,7 @@ section.recent-posts {
   font-size: 0.94em;
 }
 .navbar-toggleable-md .navbar-nav .nav-link.highlight {
-  background: #6fd350;
+  background: #028fcc;
   color: #fff;
   border-radius: 4px;
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.1);
@@ -659,8 +659,8 @@ a.btn {
   border-color: #675bff;
 }
 .btn.follow {
-  border-color: #6fd350;
-  color: #6fd350;
+  border-color: #028fcc;
+  color: #028fcc;
   padding: 3px 10px;
   text-align: center;
   border-radius: 999em;
@@ -889,6 +889,7 @@ h6 {
   font-family: "Rubik", -apple-system, BlinkMacSystemFont, "Helvetica Neue",
     sans-serif;
   color: #606060;
+  margin-bottom: 1.5rem;
 }
 .article-post .h1,
 .article-post .h2,
