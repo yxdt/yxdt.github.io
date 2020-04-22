@@ -8,11 +8,11 @@
       <span class="post-excerpts col-md-10">
         {{ post.excerpt }}
 
-      ...
-      
+        <a href="{{ site.baseurl }}{{ post.url }}">阅读全文...</a>
+
       </span>
 
-      <span class="post-date col-md-2">
+      <span class="post-date col-md-2" style="text-align: right;">
         <time class="post-date" datetime="{{ post.date | date:"%Y-%m-%d" }}">
           {{ post.date | date:"%Y/%m/%d" }}
         </time>
