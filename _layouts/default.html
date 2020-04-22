@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="icon" href="{{ site.baseurl }}/assets/images/favicon.png">    
-<title>{{ page.title }} | {{site.name}}</title>
+<title>{{ page.title }} | {{site.title}}</title>
 {% seo %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
 
         <!-- Begin Logo -->
         <a class="navbar-brand" href="{{ site.baseurl }}/">
-        <img src="{{ site.baseurl }}/{{ site.logo }}" alt="{{ site.name }}">
+        <img src="{{ site.baseurl }}/{{ site.logo }}" alt="{{ site.title }}">
         </a>
         <!-- End Logo -->
 
@@ -71,7 +71,7 @@
     ================================================== -->
 
     <div class="mainheading" style="display:none;">
-        <h1 class="sitetitle">{{ site.name }}</h1>
+        <h1 class="sitetitle">{{ site.title }}</h1>
         <p class="lead">
              {{ site.description }}
         </p>
@@ -138,7 +138,7 @@
 
             <div class="copyright">
                 <p class="pull-left">
-                Copyright © {{ site.time | date: "%Y" }} {{ site.name }}.
+                Copyright © {{ site.time | date: "%Y" }} {{ site.title }}.
                 </p>
                 <p class="pull-right">
                 <!-- Please, leave credit to author unless you own a commercial license: https://www.wowthemes.net/freebies-license/ --> 
