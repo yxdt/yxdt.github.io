@@ -1,15 +1,16 @@
 <h1>Tag Cloud</h1>
 {% assign tags = site.tags | sort %}
+<div class='site-tag'>
 {% for tag in tags %}
- <span class="site-tag">
     <a href="/tag/{{ tag | first | slugify }}/"
-        style="font-size: {{ tag | last | size  |  times: 4 | plus: 80  }}%">
-            {{ tag[0] | replace:'-', ' ' }} ({{ tag | last | size }})
+        style="font-size: {{ tag | last | size  | times: 4 | plus: 80 }}%">
+            {{ tag[0] | replace:'-', ' ' }} <i class="badge">({{ tag | last | size }})</i>
     </a>
-</span>
 {% endfor %}
+</div>
 
 <h1>Category Cloud</h1>
+<ul>
 {% for category in site.categories %}
     <li style="font-size: {{ category | last | size | times: 100 | divided_by: site.categories.size }}%">
         <a href="/{{ category | first | slugize }}/">
@@ -17,3 +18,4 @@
         </a>
     </li>
 {% endfor %}
+</ul>
