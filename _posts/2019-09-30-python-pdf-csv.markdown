@@ -10,7 +10,7 @@ tag: [Python, Fintech, DCF, FCFF, CSV]
 
 # 一、前言：
 
-本文是用 Python 获取企业年报数据并进行企业价值分析系列文章的第二篇，主要讲述如何将下载的 PDF 定期报告中提取用于企业价值分析的相关数据，提取的报表包括：资产负债表、利润表、现金流量表以及现金流量表补充资料。
+本文是用 Python 获取企业年报数据并进行企业价值分析系列文章的第二篇，主要讲述如何将下载的 PDF 定期报告中提取用于企业价值分析的相关数据，提取的报表包括：资产负债表、利润表、现金流量表以及现金流量表补充资料。将数据提取后，按照企业代码、年份、报告期、报表类型进行命名，补充资料仅在半年报和年报中出现，一、三季报不提取。
 
 # 二、知识点:
 
@@ -60,9 +60,86 @@ tag: [Python, Fintech, DCF, FCFF, CSV]
 - PDF 的数据定位与提取
 
   中国上市公司分为上海和深圳两个交易市场，不同市场的股票报表格式略有不同，而且 PDF 文件本身并不是一个对数据友好的文件格式，从其中提取表格中的数据尤其困难。经过挑选，确定了首先使用[pdfminer3k](https://github.com/jaepil/pdfminer3k/)进行表格的定位，然后使用[tabula](https://tabula.technology/)提取相应的表格数据并转化为 csv 格式的文本文件。
+    ```python
+      #创建一个PDF文档解析器对象
+      parser = PDFParser(fp)
+      #创建一个PDF文档对象存储文档结构
+      document = PDFDocument()
+      parser.set_document(document)
+      document.set_parser(parser)
+      document.initialize()
+      # 检查是否允许提取文本，如不允许则弹出例外退出.
+      if not document.is_extractable:
+          logging.critical('document.is_extractable')
+          raise PDFTextExtractionNotAllowed
+      rsrcmgr = PDFResourceManager()
+      laparams = LAParams()
+      device=PDFPageAggregator(rsrcmgr, laparams=laparams)
+      interpreter = PDFPageInterpreter(rsrcmgr, device)
+    
+    ```
 
 - 不同公司、不同年份的报表格式如何统一定位？
 
-  上市公司财务报表的编制虽然要遵循会计准则，然而不同公司甚至同一公司不同年份的财务报表的编制都有不同。这给数据提取造成了相当的困难， 而解决方法也只能通过大量读取财务报告，“训练”程序员来解决
+  上市公司财务报表的编制虽然要遵循会计准则，然而不同公司甚至同一公司不同年份的财务报表的编制都有不同。这给数据提取造成了相当的困难， 而解决方法也只能通过大量读取财务报告，“训练”程序员来解决。
+
+    ```python
+    ...
+    #用关键字方式定位三张表在财报内的位置，首先定位资产负债表的起始点
+    if not bsEnd :
+      if x == '合并资产负债表' or x == '资产负债表' : 
+        if showDetail :
+            logging.warning('资产负债表开始===当前页码:'+str(pageIndex))
+            logging.warning("%6d, %6d, %s" % (y.bbox[0], y.bbox[1], y.get_text().replace('\n', '_')))                    
+            logging.warning(y)
+        bsTopPos = y.bbox[1]
+        bsStart = True
+        bsStartPage = pageIndex
+        #bsSmp = x.replace('\r','').replace('\n','').strip() == '资产负债表' 
+    #然后在其后定位利润表或者母公司资产表来确定中止点
+    if(bsStart and (x == '母公司资产负债表' or x == '利润表' or x == '合并利润表')) :
+        if showDetail :
+            logging.warning('资产负债表结束===当前页码:'+str(pageIndex))
+            logging.warning("%6d, %6d, %s" % (y.bbox[0], y.bbox[1], y.get_text().replace('\n', '_')))
+            logging.warning(y)
+        bsEndPos = y.bbox[1]
+        bsEnd = True                          
+        bsEndPage = pageIndex
+        bsFound = True
+    if(bsStart and not bsEnd):#资产负债表
+    ...                
+    ```
 
 - 数据提取不完整的问题
+
+  由于多种原因，例如表格数据读取功能限制，会计科目名称过长造成跨行乃至跨页，编制人员未正确输入标准会计科目等情况均会造成数据提取不完整的情况出现，这些情况发生没有规律可言，在下一阶段：数据从csv导入到数据库时进一步做数据整理和清洗过程时进行。
+  本阶段只根据关键字定位报表数据，进行数据提取，并根据经验覆盖99%的情况。
+  ```python
+   if report_id == 0 : #
+        startItem = '流动资产'
+        endItem = '负债和所有者权益总计'
+        endItem1 = '负债及所有者权益合计'
+        endItem2 = '负债和所有者权益或股东权益总计'
+    elif report_id == 1:
+        startItem = '一营业总收入'
+        endItem = '二稀释每股收益元/股'                  
+        endItem1 = '归属于少数股东的综合收益总额'
+        endItem2 = '二稀释每股收益'
+    elif report_id == 2:
+        startItem = '一经营活动产生的现金流量'
+        endItem = '六期末现金及现金等价物余额'
+        endItem1 = endItem
+        endItem2 = endItem
+    elif report_id == 5:
+        startItem = '1将净利润调节为经营活动现金流量'        
+        endItem  = '现金及现金等价物净增加额'        
+        endItem1 = '现金及现金等价物净增加额'
+        endItem2 = endItem
+    else: 
+        startItem = '错误id'
+        endItem = '错误id'
+        endItem1 = endItem
+        endItem2 = endItem
+    passed = True
+   
+  ```
