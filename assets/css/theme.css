@@ -892,6 +892,19 @@ h6 {
   color: #606060;
   margin-bottom: 1.5rem;
 }
+
+.post-excerpts .h1,
+.post-excerpts .h2,
+.post-excerpts .h3,
+.post-excerpts .h4,
+.post-excerpts .h5,
+.post-excerpts .h6,
+.post-excerpts h1,
+.post-excerpts h2,
+.post-excerpts h3,
+.post-excerpts h4,
+.post-excerpts h5,
+.post-excerpts h6,
 .article-post .h1,
 .article-post .h2,
 .article-post .h3,
@@ -909,6 +922,7 @@ h6 {
   line-height: 2rem;
   margin-bottom: 1.5rem;
 }
+
 .article-post img.shadow {
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
