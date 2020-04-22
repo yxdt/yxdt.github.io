@@ -26,7 +26,8 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://www.rekete.com" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: yxdt
 github_username: yxdt
-
+time: "2019-06-22"
+author: "TerryㆍXD"
 # Build settings
 theme: minima
 plugins:
