@@ -4,16 +4,16 @@
   {% for post in site.posts%}
   <article class="archive-item">
     <h5><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></h5>
-    <p>
-      <span class="post-excerpts">
+    <div class="row">
+      <span class="post-excerpts col-md-11">
         {{post.title}}
       </span>
-      <span class="post-date">
+      <span class="post-date col-md-1">
         <time class="post-date" datetime="{{ post.date | date:"%Y-%m-%d" }}">
           {{ post.date | date:"%Y/%m/%d" }}
         </time>
       </span>           
-    </p>
+    </div>
   </article>
   {% endfor%}
   <hr/>
