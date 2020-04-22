@@ -28,7 +28,7 @@ url: "https://www.rekete.com" # the base hostname & protocol for your site, e.g.
 github_username: yxdt
 time: "2019-06"
 author: "TerryㆍXD"
-logo: "/assets/images/logo.gif"
+logo: "logo.gif"
 # Build settings
 theme: minima
 plugins:
