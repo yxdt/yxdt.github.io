@@ -14,7 +14,12 @@ title: Home
 
 <div class="col-md-2">
 {% include categories.html %}
-{% include tagcloud.html %}
+
 </div>
+</div>
+<div class="row">
+
+{% include tagcloud.html %}
+
 </div>
 </div>
