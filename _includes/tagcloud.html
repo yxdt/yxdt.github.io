@@ -8,3 +8,12 @@
     </a>
 </span>
 {% endfor %}
+
+<h1>Category Cloud</h1>
+{% for category in site.categories %}
+    <li style="font-size: {{ category | last | size | times: 100 | divided_by: site.categories.size }}%">
+        <a href="/{{ category | first | slugize }}/">
+            {{ category | first }}
+        </a>
+    </li>
+{% endfor %}
