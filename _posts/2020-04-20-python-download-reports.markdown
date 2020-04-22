@@ -20,6 +20,12 @@ tag: [Python, Fintech, DCF, FCFF]
 - 掌握 HTML，CSS3 的基本知识
 - 对公司财务相关知识点的掌握
 
+---
+
+excerpt_separator
+
+---
+
 # 三、准备工作：
 
 <big>1.上市公司价值分析之 DCF 模型</big>
