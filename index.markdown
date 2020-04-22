@@ -7,3 +7,5 @@ title: Home
 ---
 
 {% include categories.html %}
+
+{% include tagcloud.html %}
