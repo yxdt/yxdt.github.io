@@ -1,4 +1,4 @@
-<h1>Tag Cloud</h1>
+<h4>Tag Cloud</h4>
 {% assign tags = site.tags | sort %}
 <div class='site-tag'>
 {% for tag in tags %}
@@ -9,7 +9,7 @@
 {% endfor %}
 </div>
 
-<h1>Category Cloud</h1>
+<h4>Category Cloud</h4>
 <ul>
 {% for category in site.categories %}
     <li style="font-size: {{ category | last | size | times: 100 | divided_by: site.categories.size }}%">
