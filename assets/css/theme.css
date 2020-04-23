@@ -13,8 +13,6 @@ body {
 }
 
 img {
-  display: block;
-  margin: 0 auto;
   max-width: 100%;
   height: auto;
   padding: 5px;
@@ -24,7 +22,10 @@ img {
   -webkit-box-shadow: 1px 1px 5px #666;
   box-shadow: 1px 1px 5px #666;
 }
-
+img[src$='centerme'] {
+  display: block;
+  margin: 0 auto;
+}
 a {
   color: #028fcc;
 }
