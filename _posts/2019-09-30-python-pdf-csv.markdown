@@ -3,10 +3,8 @@ layout: post
 title: 用Python对上市公司做价值分析：（二）从定期报告中抽取报表数据
 date: 2019-09-30 14:23:56 +0800
 categories: [Python, Fintech]
-tag: [Python, Fintech, DCF, FCFF, CSV]
+tag: [Python, Fintech, CSV]
 ---
-
-{% include header.html %}
 
 # 一、前言：
 
