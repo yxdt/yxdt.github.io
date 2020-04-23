@@ -6,7 +6,8 @@ categories: personal
 tag: [photo, travel]
 ---
 
-<div style="text-align:center">
+<div align=center>
+
 ![夕阳](/assets/images/YXD3692.jpg)
 ![光影](/assets/images/YXD3828.jpg)
 
