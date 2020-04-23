@@ -7,6 +7,9 @@ tag: [photo, travel]
 ---
 
 ![卢舍那](/assets/images/YXD3576.jpg)
+
+<!--more-->
+
 ![千年的守望](/assets/images/YXD3690.jpg)
 ![夕阳](/assets/images/YXD3692.jpg)
 ![大红灯笼高高挂](/assets/images/YXD3781.jpg)
