@@ -6,8 +6,8 @@ categories: personal
 tag: [photo, travel]
 ---
 
-![卢舍那](/assets/images/yxd3576.jpg)
-![千年的守望](/assets/images/yxd3690.jpg)
-![夕阳](/assets/images/yxd3692.jpg)
-![大红灯笼高高挂](/assets/images/yxd3781.jpg)
-![藏经阁-扫地僧在否？](/assets/images/yxd3843.jpg)
+![卢舍那](/assets/images/YXD3576.jpg)
+![千年的守望](/assets/images/YXD3690.jpg)
+![夕阳](/assets/images/YXD3692.jpg)
+![大红灯笼高高挂](/assets/images/YXD3781.jpg)
+![藏经阁-扫地僧在否？](/assets/images/YXD3843.jpg)
