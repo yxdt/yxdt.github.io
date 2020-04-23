@@ -12,6 +12,8 @@ tag: [Python, Fintech, DCF, FCFF]
 
 本文是用 Python 获取企业年报数据并进行企业价值分析系列文章的第一篇，主要讲述如何用 Python 从巨潮网站下载相应的企业定期报告。
 
+![整理好的报告](/assets/images/pdf.png)
+
 # 二、知识点:
 
 - 了解 Python 的基本语法，了解类的概念

@@ -1,0 +1,13 @@
+---
+layout: post
+title: 闲暇之余整理一些照片
+date: 2019-10-05 11:23:34 +0800
+categories: personal
+tag: [photo, travel]
+---
+
+![卢舍那](/assets/images/_yxd3576.jpg)
+![千年的守望](/assets/images/_yxd3690.jpg)
+![夕阳](/assets/images/_yxd3692.jpg)
+![大红灯笼高高挂](/assets/images/_yxd3781.jpg)
+![藏经阁-扫地僧在否？](/assets/images/_yxd3843.jpg)

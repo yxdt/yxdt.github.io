@@ -6,11 +6,10 @@ categories: [Python, Fintech]
 tag: [Python, Fintech, DCF, FCFF, CSV]
 ---
 
-{% include header.html %}
-
 # 一、前言：
 
 本文是用 Python 获取企业年报数据并进行企业价值分析系列文章的第二篇，主要讲述如何将下载的 PDF 定期报告中提取用于企业价值分析的相关数据，提取的报表包括：资产负债表、利润表、现金流量表以及现金流量表补充资料。
+![从报告中提取的报表数据](/assets/images/pdf_csv.png)
 
 # 二、知识点:
 
@@ -39,6 +38,8 @@ tag: [Python, Fintech, DCF, FCFF, CSV]
        #showDetail： 系统在提取过程中会产生相关的操作日志，该标志确定是否详细记录相关日志
    ```
 2. 程序开始按顺序打开企业的定期报告（每季度一份报告），定位并提取三张表+补充资料的财务数据
+   ![提取的数据按序存放](/assets/images/csv.png)
+
    ```python
    def readReports(self):
        start_qtr = self.qtr_start
@@ -50,6 +51,7 @@ tag: [Python, Fintech, DCF, FCFF, CSV]
                genFinCsvs(self.stock_code, fyear, fqtr)
            start_qtr = 1
    ```
+
 3. 报告中对财务报表的组织排列是有顺序的，依次为《资产负债表》、《利润表》、《现金流量表》、《现金流量表补充资料》，因此按照顺序逐表定位并提取相应数据。
 4. 首先根据不同的表格的命名规则，用 Pdfminer3k 进行定位，然后用 tabula 将相应的表格读出并转换为 csv 格式。
 5. 对提取的数据进行简单的过滤，将每一个报告的每一份财务报表以 dataframe 格式读入内存。
