@@ -6,6 +6,7 @@ categories: personal
 tag: [photo, travel]
 ---
 
+<div style="text-align:center">
 ![夕阳](/assets/images/YXD3692.jpg)
 ![光影](/assets/images/YXD3828.jpg)
 
@@ -15,3 +16,5 @@ tag: [photo, travel]
 ![千年的守望](/assets/images/YXD3690.jpg)
 ![大红灯笼高高挂](/assets/images/YXD3781.jpg)
 ![藏经阁-扫地僧在否？](/assets/images/YXD3843.jpg)
+
+</div>
