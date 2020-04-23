@@ -5,3 +5,5 @@
 layout: archive
 title: Archive
 ---
+
+<% include archive.html %>
