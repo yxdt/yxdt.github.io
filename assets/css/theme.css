@@ -13,8 +13,7 @@ body {
 }
 
 img {
-  vertical-align: middle;
-  display: inline-block;
+  display: block;
   margin: 0 auto;
   max-width: 100%;
   height: auto;
