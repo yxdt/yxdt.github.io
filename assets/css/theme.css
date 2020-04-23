@@ -18,11 +18,7 @@ img {
   max-width: 100%;
   height: auto;
   padding: 5px;
-  border: solid 1px #ddd;
   background-color: white;
-}
-
-a:hover img.imagedropshadow img.imagedropshadowthin {
   border: solid 1px #ccc;
   -moz-box-shadow: 1px 1px 5px #666;
   -webkit-box-shadow: 1px 1px 5px #666;
