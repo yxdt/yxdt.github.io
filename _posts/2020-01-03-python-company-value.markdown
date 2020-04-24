@@ -39,7 +39,7 @@ $$P=\sum_{t=1}^n\frac{CF_t}{(1+r)^t}$$
 
 DCF 的一般形式为：
 
-$$ 公司价值 = \sum_{t=1}^n\frac{FCFF_t}{(1+WACC)^t} + \frac{FCFF_(n+1)/(WACC_n-g_n)}{(1+WACC)^n} $$
+$$ 公司价值 = \sum_{t=1}^n\frac{FCFF_t}{(1+WACC)^t} + \frac{FCFF_{n+1}/(WACC_n - g_n)}{(1 + WACC)^n} $$
 
 <big>1.自由现金流 FCFF 的计算公式分解</big>
 
