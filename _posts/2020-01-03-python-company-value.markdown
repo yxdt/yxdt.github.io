@@ -93,12 +93,12 @@ $$ WACC = (K_e * W_e) + (K_d(1-t)*W_d) $$
 - $W_d$ : 债务资本在资本结构中的百分比
 - t : 公司实际所得税税率
 
-1. 基准收益率 $r_f$：即市场长期无风险收益率，在这里以 30 年期国债收益率来代替，目前为 3.3%。 [数据来源](http://yield.chinabond.com.cn/cbweb-mn/yield_main)
+1. 基准收益率 $r_f$：即市场长期无风险收益率，在这里以 30 年期国债收益率来代替，目前为 3.3%。 [国债收益率数据来源](http://yield.chinabond.com.cn/cbweb-mn/yield_main)
 2. 普通股的期望收益率：
    $$ E(r) = r_f + beta*(r_m - r_f) $$
-   - beta : 股票的 beta 值
-   - r_m ： 市场期望回报率 用 A 股过去 5 年的平均涨幅来计算。得出平均市场回报为 6.6%
-   - r_f : 计准收益率，见上。
+   - $beta$ : 股票的 beta 值
+   - $r_m$ ： 市场期望回报率 用 A 股过去 5 年的平均涨幅来计算。得出平均市场回报为 6.6%
+   - $r_f$ : 计准收益率，见上。
 3. 增长假设：假设设未来 5 年平均增长率与过去 5 年平均增长率相同，未来第 6 年起的平均增长率为过去 5 年平均增长率的一半。
 4. 永续增长 g: 可以用上面的计准收益率来代替。
 
@@ -163,18 +163,97 @@ $$ WACC = (K_e * W_e) + (K_d(1-t)*W_d) $$
 2. 通过上市公司的每日开盘收盘价格记录波动计算股票的 beta 值。
    beta 值的计算是通过线性回归模型得出的,即相对于相应的大盘指数（beta 为 1），股价变动的剧烈程度。
 
-   ```PYTHON
-   x = sm.add_constant(return_index.values)
-   y = return_stock.values
-   model = regression.linear_model.OLS(y,x).fit()
-   x = x[:, 1]
-   alpha = model.params[0]
-   beta = model.params[1]
+```python
+def calcBeta(stock_code , index_code):
+    # 获取2013年到现在的股票开盘、收盘、最高、最低交易价格信息以及对应的指数信息
+    sql1  = "SELECT A.STOCK_CODE, A.RECORD_DATE, A.OPEN_PRICE, A.HIGH_PRICE, A.LOW_PRICE, A.CLOSE_PRICE, A.TOTAL_AMOUNT, A.TOTAL_QTY "
+    sql1 += " FROM DAY_RECORDS AS A "
+    sql1 += " WHERE A.STOCK_CODE='" + stock_code + "'"
+    sql1 += " AND A.RECORD_DATE > '2013-01-01'"
+    sql1 += " ORDER BY A.RECORD_DATE"
+    df1 = pd.read_sql_query(sql1, conn)
+    df1.columns = ['STOCK_CODE', 'RECORD_DATE', 'OPEN_PRICE','HIGH_PRICE', 'LOW_PRICE', 'CLOSE_PRICE', 'TOTAL_AMOUNT', 'TOTAL_QTY']
+    df1 = df1.assign(RETURN_RATE = lambda x: x.CLOSE_PRICE.pct_change())
+    df1.head()
 
-   ```
+    #股票对应指数信息，
+    sql2 =  "SELECT A.STOCK_CODE, A.RECORD_DATE, A.OPEN_PRICE, A.HIGH_PRICE, A.LOW_PRICE, A.CLOSE_PRICE, A.TOTAL_AMOUNT, A.TOTAL_QTY "
+    sql2 += " FROM DAY_RECORDS AS A "
+    sql2 += " WHERE A.STOCK_CODE='" + index_code + "'"
+    sql2 += " AND A.RECORD_DATE > '2013-01-01'"
+    sql2 += " ORDER BY A.RECORD_DATE"
+    dfi = pd.read_sql_query(sql2, conn)
+    dfi.columns = ['STOCK_CODE', 'RECORD_DATE', 'OPEN_PRICE','HIGH_PRICE', 'LOW_PRICE', 'CLOSE_PRICE', 'TOTAL_AMOUNT', 'TOTAL_QTY']
+    dfi = dfi.assign(RETURN_RATE = lambda x: x.CLOSE_PRICE.pct_change())
+    dfi.head()
+    #return_stock
+    df1p = df1.loc[:,['RECORD_DATE','RETURN_RATE']]
+    dfip = dfi.loc[:,['RECORD_DATE','RETURN_RATE']]
+    dfr = pd.merge(df1p, dfip, on=('RECORD_DATE'))
+    dfr.dropna(how='any', inplace = True)
+    dfr.head()
+    return_index = dfr.RETURN_RATE_y
+    return_stock = dfr.RETURN_RATE_x
+
+    plt.figure(figsize=(20,10))
+    return_index.plot()
+    return_stock.plot()
+    plt.ylabel('股票与对应指数逐日回报率')
+    plt.xlabel(stock_code)
+    plt.show()
+    x = sm.add_constant(return_index.values)
+    y = return_stock.values
+    model = regression.linear_model.OLS(y,x).fit()
+    x = x[:, 1]
+    # alpha: model.params[0]
+    # beta: model.params[1]
+    return model.params[0], model.params[1], df1
+```
 
 3. 按照计算 FCFF 所需财务数据，提取相应的财务数据，计算企业向相关增长率。
+
+```python
+#10. 计算
+#    FCFF0  = 现金及现金等价物净增加额(217) # - 资本性支出(CAPX) - 净营运资金(NWC)的变化(OP_PURE_DELTA)
+#    FCFF = 税后净利润+利息费用+非现金支出-营运资本追加-资本性支出
+#    FCFF1 = (1-税率(TAX_RATE))x息税前利润EBIT(103)+折旧(447)-资本性支出CAPX-净营运资金(NWC)的变化
+#
+#    资本性支出(CAPX) == 购建固定、无形、其他长期资产所支付的现金(250) — 处置固定、无形、其他长期资产而收回的现金净额(246)
+#          净营运资金(NWC)的变化 (OP_PURE_DELTA)
+#
+sdf = sdf.assign(FCFF0 = lambda x: (x.CUR_VALUE8))# - x.CAPX - x.OP_PURE_DELTA))
+sdf = sdf.assign(FCFF = lambda x: (x.CUR_VALUE5*(1-x.TAX_RATE)+x.CUR_VALUE9 - x.CAPX - x.OP_PURE_DELTA))
+sdf = sdf.assign(FCFF1 = lambda x: (x.CUR_VALUE5 * (1 - x.TAX_RATE) + x.CUR_VALUE9 - x.CAPX1 - x.OP_PURE_DELTA))
+
+fcff5 = sdf.FCFF0.mean()
+fcffl = sdf.loc[lidx:,'FCFF0'].values
+```
+
 4. 计算 WACC。
 5. 根据假设条件计算出未来 10 年的 FCFF 预测值以及永续值折现的残值部分
 6. 按照企业价值公式，计算出当前企业价值，并除以当前上市公司总股份计算出每股合理股价
+
+```python
+def calcWacc(lr, er, dr, beta, e, d,t, oi, r5, r10, g, stock):
+    sr =  lr + beta*(0.0667 - lr)
+    wacc = sr * (e/(e+d)) + er * (d/(e+d))* (1 - t)
+    rate0 = (1 - t)*opr5 + dr5 - capx1r5 - wcr5
+    rate = fcff25/oi #过去5年平均 有定增
+    brrf = [1+r5,1+r5,1+r5,1+r5,1+r5,1+r10,1+r10,1+r10,1+r10,1+r10] #参考brr5与brrl
+    dcr =  1.0 # = 1/(1+wacc)^year ~~ [0.9091, 0.8264, 0.7513,0.6830, 0.6209, 0.5644...]
+    fcff = 0
+
+    for iR in brrf:
+        oi = oi * iR
+        dcr = dcr / (1 + wacc)
+        fcff += oi * rate * dcr
+        print(fcff, oi, rate, dcr)
+    fcf10 = oi * rate * dcr
+    ppv = fcf10 * (1+ g)/(wacc - g)
+    ppv = ppv / pow(1+wacc, 10)
+    cf = fcff + ppv
+    price = cf/stock
+    return wacc, cf, price
+```
+
 7. 参考当前市场股价，得出股价相对价值是否有高估或低估的情况。
