@@ -2,7 +2,7 @@
 layout: post
 title: "Hello World!"
 date: 2016-06-24 12:34:56 +0800
-categories: Personal
+categories: personal
 tag: [misc, personal]
 ---
 
