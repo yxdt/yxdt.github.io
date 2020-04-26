@@ -293,7 +293,7 @@ span.post-read {
 span.post-read-more a {
   color: rgba(0, 0, 0, 0.44);
   align-items: center;
-  display: inline-block;
+  display: block;
   float: right;
   width: 30px;
   height: 30px;
@@ -941,8 +941,6 @@ h6 {
 img {
   max-width: 100%;
   height: auto;
-}
-.bottompagination span.navigation {
 }
 .bottompagination span.navigation a {
   background: #fff100;
