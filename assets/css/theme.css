@@ -24,7 +24,7 @@ img {
 }
 img[src$='centerme'] {
   display: block;
-  margin: 30 auto;
+  margin: 0 auto;
 }
 a {
   color: #028fcc;
