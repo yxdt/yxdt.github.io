@@ -2,7 +2,7 @@
 layout: post
 title: 新西兰一些照片
 date: 2018-01-03 13:34:56 +0800
-categories: 个人随笔
+categories: Personal
 tag: [photo, travel]
 ---
 

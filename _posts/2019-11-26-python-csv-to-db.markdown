@@ -2,7 +2,7 @@
 layout: post
 title: 用Python对上市公司做价值分析：（三）报表数据清洗、整理与导入数据库
 date: 2019-11-26 19:53:35 +0800
-categories: [Python, 金融科技, SQLServer]
+categories: [Python, Fintech, SQLServer]
 tag: [Python, Fintech, Pandas]
 ---
 
