@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 用Python对上市公司做价值分析：（四）企业价值分析
-date: 2019-11-26 19:53:35 +0800
+date: 2020-01-03 22:03:35 +0800
 categories: [Python, Fintech, SQL Server]
 tag: [Python, Fintech, Pandas]
 ---
