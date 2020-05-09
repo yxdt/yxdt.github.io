@@ -23,7 +23,7 @@ title: Think, Program, Write
 description: >- # this means to ignore newlines until "baseurl:"
   Coding in C#(ASP.Net), Javascript/TypeScript, Python etc, and in the areas of Education, Agriculture, Fintech.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://www.rekete.com" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://yxdt.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: yxdt
 github_username: yxdt
 start_time: "2018"
