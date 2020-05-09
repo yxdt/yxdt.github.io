@@ -10,6 +10,8 @@ tag: [Javascript, Fullstack, MongoDB, Express, React.js, Node.js]
 
 # 全栈开发：
 
+<!--more-->
+
 全栈的概念是随着 WEB 开发的复杂度上升而提出来的，即覆盖网络应用程序开发的前端、中间层、后台、数据库的各个层面。最初由于技术的限制，不同开发层面的开发语言、工具都不相同，如前端需要掌握 HTML、CSS、Javascript、ASP、PHP，后台需要掌握 Java、C#、.Net Framework，数据库需要掌握 SQL 以及关系型数据库的用法，数据库访问需要各种 ORM 做映射与隔离......总体而言学习难度很大。
 
 随着 Google V8 引擎的出现，Node.js 让 Javascript 成为了后台应用程序的编程语言，前后端开发统一的趋势就逐步明确了，接下来我就对 M.E.R.N.这个 Javascript 全栈做一个笔记。
@@ -67,7 +69,7 @@ MERN 指的是：MongoDB、Express、React.js/React Native 和 Node.js 四个首
    | 1   | Context   | 避免属性的层层传递                              |
    | 1   | JSX       | Javascript Syntax eXtension,javascript 语法扩展 |
 
-4) MongoDB
+4. MongoDB
 
    [官方网站](https://www.mongodb.com/)
 
