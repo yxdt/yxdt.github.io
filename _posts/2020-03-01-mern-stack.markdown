@@ -55,9 +55,11 @@ MERN 指的是：MongoDB、Express、React.js/React Native 和 Node.js 四个首
    | 1   | request                            | params, query,body |
    | 2   | response                           | send(),status()    |
    | 3   | get()                              | 处理 get           |
-   | 3   | post()                             | 处理 post          |
-   | 4   | listen()                           | 监听端口           |
-   | 5   | use()                              | 加载中间件         |
+   | 4   | post()                             | 处理 post          |
+   | 5   | listen()                           | 监听端口           |
+   | 6   | use()                              | 加载中间件         |
+   | 7   | pug                                | 模板引擎           |
+   | 8   | ejs                                | 模板引擎           |
 
 3. React.js/React Native
 
@@ -97,3 +99,5 @@ MERN 指的是：MongoDB、Express、React.js/React Native 和 Node.js 四个首
 | 7   | Jest                 | 专用于 React.js 的测试工具                            |
 | 7.1 | Jest 相关            | describe, it, expect, fn(), beforeEach(), afterEach() |
 | 8   | Postman              | 用于 API 测试，[官方网站](https://www.postman.com/)   |
+| 9   | Multer               | 用于 express 文件上传                                 |
+| 10  | mime                 | 用于通过 mimetype 判断文件类型，获取 扩展名-文件类型  |
