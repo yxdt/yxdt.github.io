@@ -6,27 +6,28 @@ categories: algorithm
 tag: [algorithm, programming]
 ---
 
-# {{page.title}}
-
-## 动态规划（DP Dynamic Programming）
+## 动态规划 Dynamic Programming
 
 是通过把问题局部化最终获取整体解的方法。
 
 定义：Dynamic Programming 动态规划是指通过将一个复杂问题分解成一组简单子问题并对每个子问题进行一次求解并存储其结果，理想状态是存储在基于内存的存储结构中，最终解决复杂问题本身的一种解决问题的方法。
 
+<!--more-->
+
+DP 跟递归（Recursion）算法的关系密切，可以说是对递归算法的优化解法，降低了通过递归算法带来的额外数据空间的开销以及时间开销。因此，如果要掌握 DP，就首先要对递归算法有清楚的了解和掌握。递归分为头递归与尾递归: 先递归，再运算称为头递归，反之为尾递归。
+
 DP 分为自顶向下（Memo）和自底向上两种解决思路。
 
-DP 跟递归（Recursion）算法的关系密切，可以说是对递归算法的优化解法，降低了通过递归算法带来的额外数据空间的开销以及时间开销。因此，如果要掌握 DP，就首先要对递归算法有清楚的了解和掌握。
+## DP 的两个关键点：
 
-### 头递归与尾递归: 先递归，再运算称为头递归，反之为尾递归。
+1. 子结构优化 Optimal Substructure --- 贪心算法
+2. 重复子问题 Overlapping Subproblems ---
 
-### 子结构优化 Optimal Substructure --- 贪心算法
+## 自顶向下
 
-### 重复子问题 Overlapping Subproblems
+通过对递归模型的进一步优化，如对中间结果的记忆存储，得出新的优化算法即为：备忘录法（Memoization）
 
-### 中间结果的记忆存储：备忘录（Memoization） --- 自顶向下的 DP
-
-关于备忘录（Memoization），维基百科是这样描述的：
+关于备忘录 Memoization，维基百科是这样描述的：
 
 > memoization 最初是用来优化计算机程序使之计算的更快的技术，是通过存储调用函数的结果并且在同样参数传进来的时候返回结果。大部分应该是在递归函数中使用。memoization 这个词是在 1968 年被 Donald Michie 创造出来的，它源于拉丁语 memoradum，在英语中通常简写为 memo，因此就有了将一个函数的返回结果暂存入某个变量中的意思。
 
