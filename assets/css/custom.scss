@@ -9,9 +9,16 @@
 
 table {
   border-collapse: collapse;
+  th {
+    text-align: center;
+    margin: 0 auto;
+    background: #fff100;
+    color: #333;
+  }
   td {
     border: 1px solid #cad9ea;
     color: #333;
     height: 1.2rem;
+    padding: 10;
   }
 }
