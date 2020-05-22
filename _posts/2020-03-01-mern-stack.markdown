@@ -2,7 +2,7 @@
 layout: post
 title: M.E.R.N 全栈开发架构
 date: 2020-03-01 22:23:45 +0800
-categories: [Javascript, Fullstack]
+categories: Fullstack
 tag: [Javascript, Fullstack, MongoDB, Express, React.js, Node.js]
 ---
 
