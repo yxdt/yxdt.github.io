@@ -2,7 +2,7 @@
 layout: post
 title: TypeScript与Python的语法对照
 date: 2020-05-21 13:34:56 +0800
-categories: Language
+categories: [Language, Python]
 tag: [Python, TypeScript]
 ---
 
