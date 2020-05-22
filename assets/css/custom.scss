@@ -2,8 +2,16 @@
 # Lets add a comment to make this file sass-y.
 # Change this file for any custom CSS.
 ---
+
 // Import partials from `sass_dir` (defaults to `_sass`)
 
-@import
-	"syntax"
-;
+@import "syntax";
+
+table {
+  border-collapse: collapse;
+  td {
+    border: 1px solid #cad9ea;
+    color: #333;
+    height: 1.2rem;
+  }
+}

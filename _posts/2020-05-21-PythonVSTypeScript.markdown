@@ -263,6 +263,7 @@ JavaScript 本身其实是面向对象 Object 的语言，本身并没有类 Cla
 | 接口       | interface IInterfaceName{...}   |                                            |
 | 抽象类     | abstract class Animal{...}      |                                            |
 | 静态变量   | static                          |                                            |
+| 泛型类     | class SomeClass<T>{...}         |                                            |
 
 JavaScript
 
