@@ -2,7 +2,7 @@
 layout: post
 title: "算法之动态规划（Dynamic Programming）"
 date: 2020-05-12 14:14:14 +0800
-categories: algorithm
+categories: Algorithm
 tag: [algorithm, programming]
 ---
 

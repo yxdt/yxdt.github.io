@@ -1,0 +1,14 @@
+---
+layout: page
+permalink: /Algorithm/
+title: 数据结构与算法
+---
+
+<ul>
+{% for post in site.categories.Algorithm %}
+    <li>
+        <span>{{ post.date | date: "%Y-%m-%d" }}</span> 
+        &nbsp; <a href="{{ post.url }}">{{ post.title }}</a>
+    </li>
+{% endfor %}
+</ul>
