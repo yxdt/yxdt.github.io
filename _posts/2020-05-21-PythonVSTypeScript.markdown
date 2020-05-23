@@ -15,34 +15,38 @@ Javascript/TypeScript 和 Python 都属于脚本语言，两者有很多相似�
 TypeScript 是对 Javascript 的强化，其中就是对变量的声明时的强化约束，通过 var,let, const 等关键字声明变量。
 Python 不需要对变量进行声明，直接赋值即可。
 
-| TypeScript    | Python           | 说明                                                      |
-| ------------- | ---------------- | --------------------------------------------------------- |
-| any           |                  | 任意类型                                                  |
-| boolean \*    | numbers          | python 中布尔值为数值                                     |
-| number \*     | numbers.Number   |                                                           |
-| number        | numbers.Real     | float                                                     |
-| number/bigint | numbers.Integral |                                                           |
-|               | numbers.Complex  | 复数： 含 real，imag                                      |
-|               | numbers.Rational | 实数： numerator,denominator                              |
-| string \*     | String           | 不可变 py: len(), a[i],切片 a[i:j:k]                      |
-|               | bytes()          | 不可变 py:转换 bytes.decode(), str.encode()               |
-| tuple         | Tuple            | 元组，不可变， 可保存不同类型，但 TS 基于 Js 因此要注意   |
-| Array         | List             | TS 可变，对应 Py 的 Sequences 可变部分 用“[]”表示         |
-| Array         | bytearray()      | TS 可变，对应 Py 的 Sequences 可变部分 用“[]”表示         |
-| Array         | 扩展模块 array   | Py: array('1'), array('d',[1.0,2.0,3.3])                  |
-| Array         | set()            | 可变集合 Py: add()                                        |
-|               | frozenset()      | Py: 不可变集合                                            |
-| Array         | set()            | 可变集合 Py: add()                                        |
-| object        | 字典 Dictonaries | 映射 ：Key/value {key1:value1, key2:value2}               |
-| enum          | Enum             | Py 中没有枚举类型，可以引用 Enum 模块，用变量来代替       |
-| void          | None             | 函数无返回值时可以用 None，也可以不写                     |
-| null \*       | None             | 空值                                                      |
-| undefined \*  | NotImplemented   |                                                           |
-| never         |                  | TS 中 never 是根本没有返回如跳出异常，void 是返回一个空值 |
-| symbol        |                  | TS 不可改变且唯一，Py 中没有对应的常量，只能约定          |
-| Object        |                  | TS 基本类型(number,string,boolean,bigint,symbol,null)之外 |
+| TypeScript    | Python            | 说明                                                      |
+| ------------- | ----------------- | --------------------------------------------------------- |
+| any           |                   | 任意类型                                                  |
+| boolean \*    | numbers           | python 中布尔值为数值                                     |
+| number \*     | numbers.Number    |                                                           |
+| number        | numbers.Real      | float                                                     |
+| number/bigint | numbers.Integral  |                                                           |
+|               | numbers.Complex   | 复数： 含 real，imag                                      |
+|               | numbers.Rational  | 实数： numerator,denominator                              |
+| string \*     | String            | 不可变 py: len(), a[i],切片 a[i:j:k]                      |
+|               | bytes()           | 不可变 py:转换 bytes.decode(), str.encode()               |
+| tuple         | Tuple             | 元组，不可变， 可保存不同类型，但 TS 基于 Js 因此要注意   |
+| Array         | List              | TS 可变，对应 Py 的 Sequences 可变部分 用“[]”表示         |
+| Array         | bytearray()       | TS 可变，对应 Py 的 Sequences 可变部分 用“[]”表示         |
+| Array         | 扩展模块 array    | Py: array('1'), array('d',[1.0,2.0,3.3])                  |
+| Set \#        | set()             | 可变集合 Py: add() 只包括键值                             |
+|               | frozenset()       | Py: 不可变集合                                            |
+| Array         | set()             | 可变集合 Py: add()                                        |
+| Map \#        | 字典 Dictionaries | 映射 ：Key/value {key1:value1, key2:value2}               |
+| enum          | Enum              | Py 引用 lib/enum.py 的 Enum 模块，用变量来代替            |
+| void          | None              | 函数无返回值时可以用 None，也可以不写                     |
+| null \*       | None              | 空值                                                      |
+| undefined \*  | NotImplemented    |                                                           |
+| never         |                   | TS 中 never 是根本没有返回如跳出异常，void 是返回一个空值 |
+| symbol        |                   | TS 不可改变且唯一，Py 中没有对应的常量，只能约定          |
+| Object        |                   | TS 基本类型(number,string,boolean,bigint,symbol,null)之外 |
+| Date          | datetime          | 日期时间类型                                              |
+|               | calendar          | 日历相关函数                                              |
+|               | collections       | 特定目标的容器                                            |
 
 \* 为 JS 基本数据类型
+\# ES6 新增
 
 ## 2. 运算符
 
@@ -335,3 +339,36 @@ print(honda.doors)
 print(dir(honda))
 
 ```
+
+## 8. 常用/内置对象/标准库
+
+Python 的标准库涵盖范围更广，也更加偏向于科学计算，Javascript/Typescript 相对而言由于先天局限，缺少很多服务器后台方面的功能，而这些部分是通过 node.js/deno 做了补充。
+
+| 对象     | TypeScript    | Python      | 说明                                             |
+| -------- | ------------- | ----------- | ------------------------------------------------ |
+| 文本     | String        | string      | 常用字符串操作                                   |
+|          | RegExp        | re、regex   | 正则表达式，Py 的 regex 提供了 unicode 支持      |
+|          |               | difflib     | 差异计算                                         |
+|          |               | textwrap    | 文本自动换行与填充，对应 TS 的 padStart\padEnd   |
+|          |               | unicodedata | unicode 数据库，Js 的 ES6 可以支持 unicode       |
+|          |               | stringprep  | 互联网字符串预备                                 |
+|          |               | readline    | GNU readline 接口                                |
+|          |               | rlcompleter | GNU readline 的补全函数                          |
+| 数学     | Math          | math        | 常用数学计算公式                                 |
+|          |               | cmath       | 对复数的数学计算                                 |
+|          | Number        | numbers     | 数字的抽象基类                                   |
+|          |               | decimal     | 十进制定点和浮点运算                             |
+|          |               | fractions   | 分数                                             |
+|          | Math.random() | random      | 生成伪随机数 [0,1)                               |
+|          |               | statistics  | 数学统计函数                                     |
+| 日期     | Date          | datetime    | 日期时间处理 1970 年 1 月 1 日为起始日期         |
+|          |               | calendar    | 日历相关操作                                     |
+| 文件     | fs \*         | pathlib     | js 没有文件操作模块，需要 node.js 对应的 fs 模块 |
+|          |               | os.path     |                                                  |
+| 文件读写 |               | io          | open(),close(),write(),read()                    |
+| 文件格式 |               | csv         |                                                  |
+| 网络     | net \*        | socket      | js 需要 node.js 对应功能模块                     |
+|          | http \*       | http        |                                                  |
+| 操作系统 |               | os          |                                                  |
+
+\* 为 node.js 对 js 的扩展 或 deno 标准库
