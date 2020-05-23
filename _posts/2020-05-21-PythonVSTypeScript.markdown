@@ -328,6 +328,8 @@ class Sedan(Car):
   doors = 4
   def __init__(self,engine):
     Car.__init__(self,engine)
+    #or super()
+    super(Car,self)
     self.doors = 4
   def display(self):
     Car.display(self)
@@ -370,5 +372,6 @@ Python 的标准库涵盖范围更广，也更加偏向于科学计算，Javascr
 | 网络     | net \*        | socket      | js 需要 node.js 对应功能模块                     |
 |          | http \*       | http        |                                                  |
 | 操作系统 |               | os          |                                                  |
+| 执行     | eval()        | eval()      | 将字符串语句解析执行                             |
 
 \* 为 node.js 对 js 的扩展 或 deno 标准库
