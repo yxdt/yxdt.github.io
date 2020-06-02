@@ -31,7 +31,7 @@ class Program
 
 ```
 
-Structs：结构
+- Structs：结构
 
 ```C#
 struct DateStruct
@@ -46,7 +46,7 @@ ds.Month = 12;
 
 ```
 
-Interfaces：接口
+- Interfaces：接口
 
 ```C#
 //声明
@@ -61,8 +61,8 @@ public MyClass:IMyInterface{
 
 ```
 
-Delegates：委托
-一种引用类型,表示对具有特定参数列表和返回类型的方法的引用，可参考设计模式的“代理人模式”。
+- Delegates：委托
+  一种引用类型,表示对具有特定参数列表和返回类型的方法的引用，可参考设计模式的“代理人模式”。
 
 ```c#
 //声明委托
@@ -78,31 +78,284 @@ strOps = StringDouble;
 strOps("defg");
 ```
 
-Events：事件
-基于 Publisher-Subscriber 设计模式
+- Events：事件
+  基于 Publisher-Subscriber 设计模式
+
+一般事件的声明与调用
+
+```c#
+
+//首先声明一个委托
+public delegate void TaskMessageHandler(string taskMsg);
+
+//基于委托定义事件
+public event TaskMessageHandler TaskMessage;
+
+//实际调用
+public class Tasks
+{
+  ...
+  protected void OnTaskMessageChange(string newMessage){
+    ...
+    if(!String.IsNullOrEmpty(newMessage))
+      //调用该事件，并传递相关参数
+      TaskMessage(newMessage);
+    else{
+      ...
+    }
+  }
+  ...
+}
+
+```
+
+.Net 标准事件模式
+标准事件的核心是对 EventArgs 的继承与扩充，然后通过 EventHandler 声明。
+
+```c#
+//标准事件委托声明
+void OnEventRaised(Object sender, EventArgs args);
+
+//自定义事件参数
+public class TaskMessageArgs: EventArgs
+{
+  public string TaskMessage{get;}
+  public TaskMessageArgs(string taskMsg)
+  {
+    TaskMessage = taskMsg;
+  }
+}
+
+//声明并引用
+public class TaskManager
+{
+  public event EventHandler<TaskMessageArgs> TaskDone;
+  public void FinishTask()
+  {
+    TaskDone?.Invoke(this, new TaskMessageArgs("Task Done"));
+  }
+}
+```
+
+- Properties：属性，类的成员，提供访问字段的灵活方法
+
+```C#
+public class MyClass
+{
+  //私有变量
+  private int _myInt;
+
+  //公开属性
+  public int MyInt
+  {
+    get
+    {
+      return _myInt;
+    }
+    set
+    {
+      _myInt = value;
+    }
+  }
+}
+```
+
+- Expressions,Statements,Operators：表达式、语句、操作符
+  略
+
+- Attributes：特性，为程序代码添加元数据或声明性信息，运行时，通过反射可以访问特性信息
+
+[attribute(some_parameter, other_parameters = value ...)]
+element
+
+.Net 框架提供了三种预定义特性：
+
+1. AttributeUsage：描述了如何使用一个自定义特性类，规定了特性可以应用到的项目的类型。
+2. Contitional：标记了一个条件方法，其执行依赖于指定的预处理标识符，如 Debug 或 Trace。[Conditional("DEBUG")]
+3. Obsolete：标记了不应该被使用的程序实体[Obsolete(message)]
+
+构建自定义特性：
+
+```c#
+  //自定义特性
+  [AttributeUsage(AttributeTargets.Class|
+  AttributeTargets.Constructor |
+  AttributeTargets.Field |
+  AttributeTargets.Method |
+  AttributeTargets.Property,
+  AllowMultiple = true)]
+
+  public class MyAttrib :System.Attribute
+  {
+    private int _num;
+    private string _msg;
+
+    public MyAttrib(int num)
+    {
+      this._num = num;
+    }
+    public int Num
+    {
+      get
+      {
+        return _num;
+      }
+    }
+    public string Message
+    {
+      get
+      {
+        return _msg;
+      }
+    }
+  }
+
+  //应用自定义特性
+  [MyAttrib(1, Message="A Normal Class")]
+  class Rectangle
+  {
+    ...
+
+    [MyAttrib(3, Message="A Normal Method")]
+    public double GetArea()
+    {
+      ...
+    }
+  }
+```
+
+- Literals：字面值（或理解为常量值），区别常量，常量是和变量相对的
+
+例如字符串的字面值就是下面的 Hello World！
+string s = "Hello World!";
+
+C# 2 特性 (VS 2005)
+
+- Generics：泛型
+
+  List<T> MyList;
+
+- Partial types：分部类型，可以将类、结构、接口等类型定义拆分到多个文件中
+
+```c#
+  //in file1.cs
+  public partial class MyClass
+  {
+    ...
+  }
+
+  //in file2.cs
+  public partial class MyClass
+  {
+    ...
+  }
+
+```
+
+- Anonymous methods：匿名方法
+
+匿名方法一般是通过 delegate 关键字创建委托实例来声明的。
+
+```c#
+delegate void MyDelegate(int num);
+...
+MyDelegate md = delegate(int x)
+{
+  Console.WriteLine("Anonymous Method: {0}", x);
+  ...
+}
+```
+
+- Iterators：迭代器
+  迭代器的作用就是对集合中的对象能够方便的遍历。通过实现两个泛型接口：IEnumerable<T>和 IEnumerator<T>。
+
+  还可以通过 yield 关键字定义迭代器方法：
+
+  ```C#
+  public IEnumerable<int> GetNumbers()
+  {
+    int index;
+    yield return 0;
+    yield return 1;
+    yield return 2;
+    yield return 3;
+    yield return 4;
+    yield return 5;
+
+    index = 100;
+    while(index < 110)
+    {
+      yield return index++;
+
+    }
+    //注意： yield return 和 return 不能出现在同一个方法中。
+  }
+  ```
+
+* Nullable types：可以为 Null 的类型，该类可以是其它值或者 null
+
+```c#
+int? varNullable;
+```
+
+- Getter/setter separate accessibility：属性访问控制
+
+```c#
+  public class MyClass
+  {
+    //老式写法
+    private int _myInt;
+    public int MyInt
+    {
+      get{return _myInt;}
+      set{_myInt = value;}
+    }
+    //新式写法
+    public string MyString {get;set;}
+  }
+```
+
+- Method group conversions (delegates)：方法组转换，可以将声明委托代表一组方法，隐式调用,简化 delegate 的调用方式
+
+  思考：与接口的异同之处
 
 ```c#
 
 ```
 
-Properties：属性，类的成员，提供访问字段的灵活方法
+- Covariance and Contra-variance for delegates and interfaces：委托、接口的协变和逆变
+  隐式泛型转换
+  Covariance: 用衍生类型声明并分配给其上级类 见下
+  Contravariance： 与协变相反。
 
-Expressions,Statements,Operators：表达式、语句、操作符
-Attributes：特性，为程序代码添加元数据或声明性信息，运行时，通过反射可以访问特性信息
-Literals：字面值（或理解为常量值），区别常量，常量是和变量相对的
+```c#
+// Assignment compatibility.
+string str = "test";
+// An object of a more derived type is assigned to an object of a less derived type.
+object obj = str;
 
-C# 2 特性 (VS 2005)
+// Covariance.
+IEnumerable<string> strings = new List<string>();
+// An object that is instantiated with a more derived type argument
+// is assigned to an object instantiated with a less derived type argument.
+// Assignment compatibility is preserved.
+IEnumerable<object> objects = strings;
 
-Generics：泛型
-Partial types：分部类型，可以将类、结构、接口等类型定义拆分到多个文件中
-Anonymous methods：匿名方法
-Iterators：迭代器
-Nullable types：可以为 Null 的类型，该类可以是其它值或者 null
-Getter/setter separate accessibility：属性访问控制
-Method group conversions (delegates)：方法组转换，可以将声明委托代表一组方法，隐式调用
-Co- and Contra-variance for delegates and interfaces：委托、接口的协变和逆变
-Static classes：静态类
-Delegate inference：委托推断，允许将方法名直接赋给委托变量
+// Contravariance.
+// Assume that the following method is in the class:
+// static void SetObject(object o) { }
+Action<object> actObject = SetObject;
+// An object that is instantiated with a less derived type argument
+// is assigned to an object instantiated with a more derived type argument.
+// Assignment compatibility is reversed.
+Action<string> actString = actObject;
+```
+
+- Static classes：静态类
+
+- Delegate inference：委托推断，允许将方法名直接赋给委托变量
+
+
 C# 3 特性 (VS 2008)
 
 Implicitly typed local variables：
