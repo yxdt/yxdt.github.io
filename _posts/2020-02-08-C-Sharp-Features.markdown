@@ -161,12 +161,14 @@ public class MyClass
 ```
 
 - Expressions,Statements,Operators：表达式、语句、操作符
-  略
+  所有高级语言都有的特性，不举例子了。。略
 
 - Attributes：特性，为程序代码添加元数据或声明性信息，运行时，通过反射可以访问特性信息
 
+```c#
 [attribute(some_parameter, other_parameters = value ...)]
-element
+class ClassElement{...}
+```
 
 .Net 框架提供了三种预定义特性：
 
@@ -229,11 +231,13 @@ element
 例如字符串的字面值就是下面的 Hello World！
 string s = "Hello World!";
 
-C# 2 特性 (VS 2005)
+## C\# 2 特性 (VS 2005)
 
 - Generics：泛型
 
+```c#
   List<T> MyList;
+```
 
 - Partial types：分部类型，可以将类、结构、接口等类型定义拆分到多个文件中
 
@@ -324,7 +328,7 @@ int? varNullable;
 ```
 
 - Covariance and Contra-variance for delegates and interfaces：委托、接口的协变和逆变
-  隐式泛型转换
+  隐式泛型转换， 通过该特性，进一步简化了委托的声明和引用，类型、返回值不再必须完全一致。
   Covariance: 用衍生类型声明并分配给其上级类 见下
   Contravariance： 与协变相反。
 
@@ -353,73 +357,622 @@ Action<string> actString = actObject;
 
 - Static classes：静态类
 
-- Delegate inference：委托推断，允许将方法名直接赋给委托变量
+1、静态类不能实例化
+2、仅包含静态成员 static
+3、是密封的 sealed，不可继承
+4、不能包含实例构造函数
 
+```c#
+static class CompanyInfo
+{
+    public static string GetCompanyName() { return "CompanyName"; }
+    public static string GetCompanyAddress() { return "CompanyAddress"; }
+}
+```
 
-C# 3 特性 (VS 2008)
+- Delegate inference：委托推断，允许将方法名直接赋给委托变量, 简化了委托的使用。
 
-Implicitly typed local variables：
-Object and collection initializers：对象和集合初始化器
-Auto-Implemented properties：自动属性，自动生成属性方法，声明更简洁
-Anonymous types：匿名类型
-Extension methods：扩展方法
-Query expressions：查询表达式
-Lambda expression：Lambda 表达式
-Expression trees：表达式树，以树形数据结构表示代码，是一种新数据类型
-Partial methods：部分方法
-C# 4 特性 (VS 2010)
+```c#
 
-Dynamic binding:动态绑定
-Named and optional arguments：命名参数和可选参数
-Generic co- and contravariance：泛型的协变和逆变
-Embedded interop types (“NoPIA”)：开启嵌入类型信息，增加引用 COM 组件程序的中立性
-C# 5 特性 (VS 2012)
+using System;
 
-Asynchronous methods：异步方法
-Caller info attributes：调用方信息特性，调用时访问调用者的信息
-C# 6 特征 (VS 2015)
+delegate void SomeAction();
 
-Compiler-as-a-service (Roslyn)
-Import of static type members into namespace：支持仅导入类中的静态成员
-Exception filters：异常过滤器
-Await in catch/finally blocks：支持在 catch/finally 语句块使用 await 语句
-Auto property initializers：自动属性初始化
-Default values for getter-only properties：设置只读属性的默认值
-Expression-bodied members：支持以表达式为主体的成员方法和只读属性
-Null propagator (null-conditional operator, succinct null checking)：Null 条件操作符
-String interpolation：字符串插值，产生特定格式字符串的新方法
-nameof operator：nameof 操作符，返回方法、属性、变量的名称
-Dictionary initializer：字典初始化
-C# 7 特征 (Visual Studio 2017)
+class Test
+{
+    static void Main(string[] args)
+    {
+        // Without using delegate inference
+        SomeAction oldStyle = new SomeAction (SayHello);
 
-Out variables：out 变量直接声明，例如可以 out in parameter
-Pattern matching：模式匹配，根据对象类型或者其它属性实现方法派发
-Tuples：元组
-Deconstruction：元组解析
-Discards：没有命名的变量，只是占位，后面代码不需要使用其值
-Local Functions：局部函数
-Binary Literals：二进制字面量
-Digit Separators：数字分隔符
-Ref returns and locals：引用返回值和局部变量
-Generalized async return types：async 中使用泛型返回类型
-More expression-bodied members：允许构造器、解析器、属性可以使用表达式作为 body
-Throw expressions：Throw 可以在表达式中使用
-C# 7.1 特征 (Visual Studio 2017 version 15.3)
+        // Now using delegate inference
+        SomeAction newStyle = SayHello;
+    }
+    static void SayHello()
+    {
+        Console.WriteLine ("Hello");
+    }
+}
+```
 
-Async main：在 main 方法用 async 方式
-Default expressions：引入新的字面值 default
-Reference assemblies：
-Inferred tuple element names：
-Pattern-matching with generics：
-C# 8.0 特征 (Visual Studio 2017 version 15.7)
+## C# 3 特性 (VS 2008)
 
-Default Interface Methods 缺省接口实现
-Nullable reference type NullableReferenceTypes 非空和可控的数据类型
-Recursive patterns 递归模式
-Async streams 异步数据流
-Caller expression attribute 调用方法表达式属性
-Target-typed new
-Generic attributes 通用属性
-Ranges
-Default in deconstruction
-Relax ordering of ref and partial modifiers
+- Implicitly typed local variables：局部变量隐式类型声明
+  即 var 关键字的引入，简化声明，编译器根据实际分配进行强类型定义。
+
+- Object and collection initializers：对象和集合初始化器,即在声明对象的时候直接初始化
+
+```c#
+Student student = new Student{Name="Tim", Age=10, Grade=2, Gender='M'};
+
+```
+
+- Auto-Implemented properties：自动属性，自动生成属性方法，声明更简洁
+
+```c#
+class Student
+{
+  //Auto-Implemented properties
+  public int Age {get;set;}
+  public string Name {get;set;}
+  public int Grade {get;set;}
+  public char Gender{get;set;}
+
+  public string FirstName {get;set;} = "Tim"; // C# 6.0
+
+}
+```
+
+- Anonymous types：匿名类型, 提供一种便利方法将一组只读属性封装到单个对象中
+
+```c#
+var v = new {Amount=108, Message="Total"};
+...
+Console.WriteLine(v.Amount+v.Message);
+```
+
+- Extension methods：扩展方法:
+  向现有类型“添加”方法而不需要创建新的派生类、重新编译或者用其他方式修改原始类型。扩展方法是一种静态方法，但可以像扩展类型上的实例方法一样进行调用。
+
+```C#
+namespace ExtensionMethods
+{
+  public static class MyExtensions
+  {
+    public static int WordCount(this String str)
+    {
+      return str.Split(new char[]{' ', '.','?'},StringSplitOptions.RemoveEmptyEntries).Length;
+    }
+
+  }
+}
+
+//using it
+using ExtensionMethods;
+
+...
+//in some method
+string s = "Hello Extension Methods";
+int i = s.WordCount();
+
+```
+
+- Query expressions：查询表达式
+
+```c#
+int hiScoreCnt =
+    (from score in scores
+     where score > 80
+     select score)
+     .Count();
+```
+
+- Lambda expression：Lambda 表达式
+
+```C#
+(input_parameters) => expression
+
+(input_parameters) => {<sequence of statements>}
+
+Func<int ,int, bool> testForEquality = (x,y)=>x==y;
+```
+
+- Expression trees：表达式树
+
+  以树形数据结构表示代码，是一种新数据类型，其中每一个节点都是一种表达式
+  [参考文章](!https://www.jianshu.com/p/a0b8a4808890)
+
+  构建表达式树：(x, y)=>Math.Sin(x)+Math.Cos(y)
+
+  ```c#
+  ParameterExpression ParmsX=Expression.Parameter(typeof(double),"x"); //参数X
+  ParameterExpression ParmsY=Expression.Parameter(typeof(double ),"y");  //参数Y
+
+  var left=Expression.Call(null,typeof(Math).GetMethod("Sin"),ParmsX);  //树左边节点
+  var right=Expression.Call(null,typeof(Math).GetMethod("Cos"),ParmsY);//树右边节点
+  var body=Expression.Add(left,right);  //合成表达式树主体
+
+  LambdaExpression lambda=Expression.Lambda<Func<double,double,double>>(body,new ParameterExpression []{ParmsX,ParmsY});
+  //转成的表达式树，在编译后，就可以调用委托所指向的方法
+  ```
+
+- Partial methods：分部方法
+  与分部类（Partial Class）应用场景类似。可以解决自动生成代码的更新覆盖问题
+  主要目的：
+  1. 隔离用户代码和自动生成的代码
+  2. 隔离开发人员的代码实现关注点
+
+分部方法必须以 partial 开头，返回必须为 void。
+分部方法可以有 in 或 ref 参数，但不能有 out 参数。
+分部方法为隐式 private 方法，因此不能为 virtual 方法。
+分部方法不能为 extern 方法，因为主体的存在确定了方法是在定义还是在实现。
+分部方法可以有 static 和 unsafe 修饰符。
+分部方法可以是泛型的。约束将放在定义分部方法声明上，但也可以选择重复放在实现声明上。参数和类型参数名称在实现声明和定义声明中不必相同。
+你可以为已定义并实现的分部方法生成委托，但不能为已定义但未实现的分部方法生成委托。
+
+```c#
+//Definition in file1.cs
+partial void onNameChanged();
+
+//Implementation in file2.cs
+partial void onNameChanged()
+{
+  //Method body statements.
+}
+```
+
+## C# 4 特性 (VS 2010)
+
+- Dynamic binding:动态绑定
+
+```c#
+dynamic d = GetSomeObject();
+d.quack(); //编译时，编译器不知道哪里有quack，但在运行时会有的。
+
+```
+
+- Named and optional arguments：命名实参和可选实参
+  有了命名实参，可以不必记住函数参数的顺序，按名称赋值即可：
+
+PrintOrderDetails(seller: "Gift shop", 31, product:"Red Mug");
+
+- Generic co- and contravariance：泛型的协变和逆变
+
+- Embedded interop types (“NoPIA”)：开启嵌入类型信息，增加引用 COM 组件程序的中立性
+
+设为 True，实际上就是不引入互操作集（编译时放弃 COM 程序集），仅编译用户代码的程序集。
+
+## C# 5 特性 (VS 2012)
+
+- Asynchronous methods：异步方法
+  异步的好处在于非阻塞，异步编程的核心是 Task 和 Task<T>对象，这两个对象对异步操作建模。接受关键字 async 和 await 支持。
+
+  - 对 I/O 绑定代码，等待一个在 async 方法中返回 Task 或者 Task<T>的操作。
+  - 对 CPU 绑定代码，等待一个使用 Task.Run 方法在后台线程启动的操作。
+
+  async 和 await 配合使用
+
+  ```c#
+  private readonly HttpClient _httpClient = new HttpClient();
+
+  downloadButton.Clicked += async (o, e)=>{
+
+    // this line will yield control to the UI as the request
+    // from the web service is happing
+    //
+    // the UI thread is now free to perform other work.
+
+    var stringData = await _httpClient.GetStringASync(URL);
+    DoSomethingWithData(stringData);
+  }
+  ```
+
+- Caller info attributes：调用方信息特性，调用时访问调用者的信息
+
+CallerMemberNameAttribute
+The parameter with this attribute will be filled with calling method name.
+
+CallerLineNumberAttribute
+The parameter with this attribute will be filled with the line number on source file where this method is called.
+
+CallerFilePathAttribute
+The parameter with this attribute will be filled with a complete file path at compile time of the class where this method is called.
+
+```c#
+using System;
+using System.Runtime.CompilerServices;
+namespace CSharpFeatures
+{
+    class CallerInfoExample
+    {
+        static void Main(string[] args)
+        {
+            // Calling method
+            show();
+        }
+        // We must specify optional parameters to get caller info.
+        static void show([CallerMemberName] string callerName = null,
+            [CallerFilePath] string callerFilePath = null,
+            [CallerLineNumber] int callerLine = -1)
+        {
+            Console.WriteLine("Caller method Name: {0}", callerName);
+            Console.WriteLine("Caller method File location: {0}", callerFilePath);
+            Console.WriteLine("Caller method Line number: {0}", callerLine);
+        }
+    }
+}
+
+// output:
+Caller method Name: Main
+Caller method File location: f:\C#\C# Features\CSharpFeatures\CallerInfoExample.cs
+Caller method Line number: 10
+```
+
+## C# 6 特征 (VS 2015)
+
+- Compiler-as-a-service (Roslyn)
+  “编译器为服务”， Roslyn 提供了开源的拥有丰富的代码分析 API 的 C#和 Visual Basic 编译器。它允许编译与 Visual Studio 相同 API 的代码分析工具。
+  [Github 地址](!https://github.com/dotnet/roslyn)
+
+- Import of static type members into namespace：支持仅导入类中的静态成员 using static 指令
+
+```c#
+//原代码
+...
+  public double CircleArea(double Radius)
+  {
+    return Math.PI * Math.Pow(Radius, 2);
+  }
+
+//新代码
+using System;
+//here
+using static System.Math;
+
+...
+  public double CircleArea(double Radius)
+  {
+    return PI * Pow(Radius, 2);
+  }
+
+```
+
+- Exception filters：异常过滤器
+
+```c#
+try
+{
+  ...
+}
+catch (Exception e) if(e.InnerException != null)
+{
+  ...
+}
+```
+
+- Await in catch/finally blocks：支持在 catch/finally 语句块使用 await 语句
+  对于耗时的操作可以通过 await 进行异步
+
+```c#
+public async Task SubmitDataToServer()
+{
+  try
+  {
+    ...
+  }
+  catch
+  {
+    await LogExceptionAsync();
+  }
+  finally
+  {
+    await CloseConnectionAsync();
+  }
+}
+```
+
+- Auto property initializers：自动属性初始化
+
+```c#
+public class Point
+{
+  public int X {get;set;} = 100; // get and set
+  public int Y {get;} = 200;      // read-only auto-property with intializer
+  public string Name {get; protected set;} = "Point"; //
+  public int Area {get;set;} = CalcArea(100,200);
+
+  public ICollection<UserDto> Users {get;} = new HashSet<UserDto>();
+
+  public static double CalcArea(int length, int width)
+  {
+    return length * width;
+  }
+}
+```
+
+- Default values for getter-only properties：设置只读属性的默认值
+  见上
+
+- Expression-bodied members：支持以表达式为主体的成员方法和只读属性
+
+PropertyType PropertyName => expression;
+
+```C#
+using System;
+
+public class Person
+{
+  public Person(string firstName, string lastName)
+  {
+    fname = firstName;
+    lname = lastName;
+  }
+  private string fname;
+  private string lname;
+
+  public override string ToString() => $"{fname} {lname}".Trim();
+  public void DisplayName() =>Console.WriteLine(ToString());
+}
+```
+
+- Null propagator (null-conditional operator, succinct null checking)：Null 条件操作符
+
+```C#
+using System;
+namespace CSharpFeatures
+{
+  class Student
+  {
+    public string Name{get;set;}
+  }
+  class NullConditionalOperator
+  {
+    public static void Main(string[] args)
+    {
+      Student student = new Student(){Name="Peter", Email = "peter@abc.com";}
+      Console.WriteLine(student?.Name?.ToUpper()??"Name is empty");
+    }
+  }
+}
+```
+
+- String interpolation：字符串插值，产生特定格式字符串的新方法
+
+```c#
+string name = "Mark";
+var date = DateTime.Now;
+
+// Composite formatting:
+Console.WriteLine("Hello, {0}! Today is {1}, it's {2:HH:mm} now.", name, date.DayOfWeek, date);
+// String interpolation:
+Console.WriteLine($"Hello, {name}! Today is {date.DayOfWeek}, it's {date:HH:mm} now.");
+// Both calls produce the same output that is similar to:
+// Hello, Mark! Today is Wednesday, it's 19:40 now.
+```
+
+- nameof operator：nameof 操作符，返回方法、属性、变量的名称
+
+```c#
+Console.WriteLine(nameof(System.Collections.Generic));  // output: Generic
+Console.WriteLine(nameof(List<int>));  // output: List
+Console.WriteLine(nameof(List<int>.Count));  // output: Count
+Console.WriteLine(nameof(List<int>.Add));  // output: Add
+
+var numbers = new List<int> { 1, 2, 3 };
+Console.WriteLine(nameof(numbers));  // output: numbers
+Console.WriteLine(nameof(numbers.Count));  // output: Count
+Console.WriteLine(nameof(numbers.Add));  // output: Add
+```
+
+- Dictionary initializer：字典初始化
+
+```c#
+  ...
+  Dictionary<int, Student> dictionary = new Dictionary<int, Student>()
+  {
+    { 1, new Student(){ ID = 101, Name = "Rahul Kumar", Email = "rahul@example.com"} },
+    { 2, new Student(){ ID = 102, Name = "Peter", Email = "peter@example.com"} },
+    { 3, new Student(){ ID = 103, Name = "Irfan", Email = "irfan@abc.com"} }
+  };
+  foreach (KeyValuePair<int, Student> kv in dictionary)
+  {
+    Console.WriteLine("Key = "+kv.Key + " Value = {" + kv.Value.ID +", "+ kv.Value.Name +", "+kv.Value.Email+"}");
+  }
+```
+
+## C# 7 特征 (Visual Studio 2017)
+
+- out variables：out 变量直接声明，例如可以 out int parameter
+  在此之前，out 参数必须先声明才可以引用，该特性出来后，可以直接在引用的时候声明
+  ```c#
+  //原有写法
+  string userName;
+  GetUser(out userName);
+  ...
+  //新写法
+  GetUser(out string userName);
+  ...
+  ```
+- Pattern matching：模式匹配，根据对象类型或者其它属性实现方法派发
+
+```c#
+  //before
+  if(shape is Square)
+  {
+    var s = (Square) shape;
+    return s.Side * s.Side;
+  }
+
+  //now
+  if(shape is Square s)
+  {
+    return s.Side * s.Side;
+  }
+  //扩展了switch ，原来switch只支持常量，现在支持类型
+  switch(shape)
+  {
+    case Square s:
+      return s.Side*s.Side;
+      ...
+  }
+  //case 中的when
+  switch(shape)
+  {
+    case Square s when s.Side == 0:
+      return 0;
+    case Square s:
+      return s.Side*s.Side;
+    ...
+  }
+```
+
+- Tuples：元组, 引入元组就是为了方法返回时对多个值进行打包
+
+```C#
+var unnamed = ("one", "two");
+var named = (first: "one", second:"two");
+
+var sum = 100;
+var count = 3;
+var accumulation = (sum, count);
+
+var left = (a: 5, b:10);
+var right = (a:5, b:10);
+Console.WriteLine(left == right);//"true"
+
+(int a, int b)? nullableTuple = right;
+Console.WriteLine(left == nullableTuple); //"true"
+
+(int? a, int? b) nullableMembers = (5,10);
+Console.WriteLine(left == nullableMembers); //true
+
+(long a, long b) longTuple = (5,10);
+Console.WriteLine(left == longTuple); //true
+
+(long a, int b) longFirst = (5,10);
+(int a, long b) longSecond = (5,10);
+Console.WriteLine(longFirst, longSecond); //true
+
+//嵌套
+(int (int, float)) nestedTuple = (1, (2, 3.2));
+
+//转换
+var unnamed = (42, "the meaning of life");
+var anonymous = (16, "a perfect square");
+var named = (Answer: 42, Message: "the meaning of life");
+var differentNamed =(secretConstant: 42, Label: "the meaning of life");
+
+anonymous = named; //可以赋值
+named = unnamed; //可以赋值 named 的字段名称仍然保留
+Console.WriteLine($"{named.Answer}, {named.Message}");
+
+named = differentNamed //字段名不会改变
+Console.WriteLine($"{named.Answer}, {named.Message}");
+
+//析构
+...
+(int count, double sum, double sumOf) = ComputeSumAndSumOf(sequence);
+//or
+var (count, sum, sumOf) = ComputeSumAndSumOf(sequence);
+(int count, var sum, var sumOf) = ComputeSumAndSumOf(sequence);
+
+Console.WriteLine($"{count}, {sum}, {sumOf}");
+
+Public class Person
+{
+  public string FirstName{get;}
+  public string LastName{get;}
+  public Person(string first, string last)
+  {
+    FirstName = first;
+    LastName = last;
+  }
+  public void Deconstruct(out string firstName, out string lastName)
+  {
+    firstName = FirstName;
+    lastName = LastName;
+  }
+}
+var p = new Person("Max", "Payne");
+var (first, last) = p;
+
+//as an out param
+Dictionary<int, (int, string)> dict = new Dictionary<int, (int, string)>();
+dict.Add(1,(123,"First"));
+dict.Add(2,(124,"Second"));
+dict.Add(3,(125,"Last"));
+
+dict.TryGetValue(2, out (int num, string place) pair);
+Console.WriteLine($"{pair.num}: {pair.place}");
+
+```
+
+- Deconstruction：元组解析
+  见上
+
+- Discards：弃元， 没有命名的变量，只是占位，后面代码不需要使用其值
+  (_, _, area) = city.GetCityInformation(cityName);
+
+- Local Functions：局部函数 / 本地函数
+  是嵌套在另一成员中的类型的私有方法。仅可被其包含成员调用。
+  <modifiers: async|unsafe> <return-type> <method-name> <parameter-list>
+
+```c#
+class Example
+{
+  static void Main(string[] args)
+  {
+    ....
+  }
+
+  private static string GetText(string path, string filename)
+  {
+    var sr = File.OpenText(AppendPathSeparator(path)+filename);
+    ...
+
+    //local function
+    string AppendPathSeparator(string filepath)
+    {
+      if(!filepath.EndsWith(@"\"))
+      {
+        filepath += @"\";
+      }
+      return filepath;
+    }
+  }
+}
+```
+
+- Binary Literals：二进制字面量
+
+```c#
+int nineteen = 0b10011;
+```
+
+- Digit Separators：数字分隔符
+
+- Ref returns and locals：引用返回值和局部变量
+- Generalized async return types：async 中使用泛型返回类型
+- More expression-bodied members：允许构造器、解析器、属性可以使用表达式作为 body
+- Throw expressions：Throw 可以在表达式中使用
+
+## C# 7.1 特征 (Visual Studio 2017 version 15.3)
+
+- Async main：在 main 方法用 async 方式
+- Default expressions：引入新的字面值 default
+- Reference assemblies：
+- Inferred tuple element names：
+- Pattern-matching with generics：
+
+## C# 8.0 特征 (Visual Studio 2017 version 15.7)
+
+- Default Interface Methods 缺省接口实现
+- Nullable reference type NullableReferenceTypes 非空和可控的数据类型
+- Recursive patterns 递归模式
+- Async streams 异步数据流
+- Caller expression attribute 调用方法表达式属性
+- Target-typed new
+- Generic attributes 通用属性
+- Ranges
+- Default in deconstruction
+- Relax ordering of ref and partial modifiers
