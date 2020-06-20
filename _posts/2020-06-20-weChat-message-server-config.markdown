@@ -17,15 +17,15 @@ tag: [dotNet, weChat, C#]
 
 <!--more-->
 
-2. 生成新的 ApiController，并添加新的 HttpGet 请求处理方法：
+1. 生成新的 ApiController，并添加新的 HttpGet 请求处理方法：
 
 ![添加新API控制器](/assets/images/webapi1.png)
 
-3. 验证方法的具体实现：
+1. 验证方法的具体实现：
 
 ```c#
 [HttpGet]
-public string Get( [FromQuery]string signature,
+public string Get([FromQuery]string signature,
                    [FromQuery]string timestamp,
                    [FromQuery]string nonce,
                    [FromQuery]string echostr)
