@@ -2,7 +2,7 @@
 layout: post
 title: 小程序消息服务器配置.Net Core实现
 date: 2020-06-20 10:12:29 +0800
-categories: [Fullstack dotNet]
+categories: [Fullstack, dotNet]
 tag: [dotNet, weChat, C#]
 ---
 
