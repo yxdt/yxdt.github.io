@@ -15,7 +15,7 @@ tag: [dotNet, weChat, C#]
 
 ![创建新Web API项目](/assets/images/webapi.png)
 
-<!--more -->
+<!--more-->
 
 2. 生成新的 ApiController，并添加新的 HttpGet 请求处理方法：
 
