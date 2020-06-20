@@ -11,17 +11,17 @@ tag: [dotNet, weChat, C#]
 微信小程序的消息功能允许订阅了消息的小程序用户接收消息，极大地提升了小程序地可用性，微信官方文档对服务器端配置给出了 PHP 的例子，对于.Net 开发人员，只需要简单的转化即可。
 下面就给出相应的实现：
 
-1. 打开 Visual Studio， 创建一个新项目选择“.Net Core Web 应用程序”， 然后确定 ASP.NET Core 版本，再选择 API。
+1 打开 Visual Studio， 创建一个新项目选择“.Net Core Web 应用程序”， 然后确定 ASP.NET Core 版本，再选择 API。
 
 ![创建新Web API项目](/assets/images/webapi.png)
 
 <!--more-->
 
-1. 生成新的 ApiController，并添加新的 HttpGet 请求处理方法：
+2 生成新的 ApiController，并添加新的 HttpGet 请求处理方法：
 
 ![添加新API控制器](/assets/images/webapi1.png)
 
-1. 验证方法的具体实现：
+3 验证方法的具体实现：
 
 ```c#
 [HttpGet]
