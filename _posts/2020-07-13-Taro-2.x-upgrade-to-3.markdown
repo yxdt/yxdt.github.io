@@ -18,11 +18,11 @@ Tarojs 是京东凹凸实验室开发的统一小程序开发框架，实现了�
 
 我也算是 Tarojs 的深度用户了，由于小程序开发本身语法相对特殊，为开发人员设定了很多限制，而习惯了 React 的开发模式，发现了 Taro 这个能够基于 Reactjs 并能开发出跨平台的框架，自然是全面拥抱，从小程序开发的第一天就用 Tarojs 框架。现在手边的工作也因为 Tarojs 升级到了 3.0 而再了解 3.0 的原理和机制的基础上，对已有 2.0 版本的开发项目进行升级。
 
-具体 Taro3 的新功能可以参考[官方博文]!(https://aotu.io/notes/2020/06/30/taro-3-0-0/)
+具体 Taro3 的新功能可以参考[官方博文](!https://aotu.io/notes/2020/06/30/taro-3-0-0/)
 
 # 2.x 到 3 的迁移
 
-主要参考资料是官方给出的[迁移指南]!(https://taro-docs.jd.com/taro/docs/migration)
+主要参考资料是官方给出的[迁移指南](!https://taro-docs.jd.com/taro/docs/migration)
 
 ## 1. 检查本机当前 taro 版本：
 
@@ -52,7 +52,7 @@ Tarojs 是京东凹凸实验室开发的统一小程序开发框架，实现了�
 @tarojs/components
 @tarojs/taro
 @tarojs/react --如果用的是 React
-taro-ui --如果用到了 taro-ui
+taro-ui@next --如果用到了 taro-ui
 react
 react-dom -- taro-ui 会用到
 
@@ -105,14 +105,14 @@ react-dom -- taro-ui 会用到
 
 升级到 Taro3 后，Jest 的测试意外停止工作，爆出的错误如下：
 
-```javascript
+```
  path\of\app\node_modules\@tarojs\runtime\dist\runtime.esm.js:1
     import { isBooleanLiteral } from 'babel-types';
     ^^^^^^
 
     SyntaxError: Cannot use import statement outside a module
 
-    > 1 | import Taro from "@tarojs/taro";
+      1 | import Taro from "@tarojs/taro";
         | ^
       2 | //import { WxUserInfo, RegUser } from "src/types/ars";
       3 | import { userLogin } from "./rest";
@@ -140,4 +140,4 @@ transformIgnorePatterns: [
 
 # 补充说明
 
-如果开发过程中使用了 taro ui ，那么还是先暂时不要升级到 Taro 3， 因为 taro-ui 目前的版本还不能支持 Taro3。taro-ui 的 3.0 版本处于 alpha 阶段，有部分控件不能正确工作，所以不能真正用到实际项目开发中。
+如果开发过程中使用了 taro ui ，那么还是先暂时不要升级到 Taro 3， 因为 taro-ui 目前的正式版本还不能支持 Taro3，taro-ui 的 3.0 版本处于 alpha 阶段，有部分控件不能正确工作，所以还不能真正用到实际项目开发中。
