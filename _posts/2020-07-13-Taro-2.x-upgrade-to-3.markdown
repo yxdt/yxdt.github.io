@@ -1,0 +1,143 @@
+---
+layout: post
+title: "小程序开发：Tarojs从2.x升级到3的升级流程"
+date: 2020-07-12 10:43:21 +0800
+categories: Fullstack
+tag: [tarojs, Javascript/Typescript]
+---
+
+# Tarojs
+
+Tarojs 是京东凹凸实验室开发的统一小程序开发框架，实现了一次编码，实现微信、支付宝、百度、字节、H5、RN 等各端小程序。
+
+发布两年多来，热度持续提升，20 年 7 月推出了 3.0 版本，是对该框架的一次重要升级。按照 IT 界传统惯例，软件只有推出到 3.0 版本才算是真正成熟，Tarojs 也不例外。
+
+粗略看了一下跟 2.x 版本的区别，可以明显感觉出 3.0 版本不再是“寄生”在 Reactjs 上的补丁型框架了，从底层上实现了真正的跨越框架的目标，开发人员可以无缝切换到 React、Nerv、Vue、jQuery 等 JS 框架，为用户提供了最大的自由度。
+
+<!--more-->
+
+我也算是 Tarojs 的深度用户了，由于小程序开发本身语法相对特殊，为开发人员设定了很多限制，而习惯了 React 的开发模式，发现了 Taro 这个能够基于 Reactjs 并能开发出跨平台的框架，自然是全面拥抱，从小程序开发的第一天就用 Tarojs 框架。现在手边的工作也因为 Tarojs 升级到了 3.0 而再了解 3.0 的原理和机制的基础上，对已有 2.0 版本的开发项目进行升级。
+
+具体 Taro3 的新功能可以参考[官方博文]!(https://aotu.io/notes/2020/06/30/taro-3-0-0/)
+
+# 2.x 到 3 的迁移
+
+主要参考资料是官方给出的[迁移指南]!(https://taro-docs.jd.com/taro/docs/migration)
+
+## 1. 检查本机当前 taro 版本：
+
+> \>taro --version
+
+如果没有安装，或者现有版本还没有到 3.0.0 以上，可以用下面的命令进行升级。
+
+## 2. 对本机 Taro/Cli 的升级：
+
+官方给出的命令是：
+
+> \>npm i -g @tarojs/cli@next
+
+但该命令由于有@next 的存在，只升级到 3.0.0-rc.6
+所以现在可以直接输入：
+
+> \>npm i -g @tarojs/cli
+
+升级到最新版本，目前是 3.0.2
+
+## 3. 项目安装包升级
+
+然后进入要升级的项目目录，进行安装包升级：
+
+@tarojs/runtime
+@tarojs/mini-runner
+@tarojs/components
+@tarojs/taro
+@tarojs/react --如果用的是 React
+taro-ui --如果用到了 taro-ui
+react
+react-dom -- taro-ui 会用到
+
+> \>npm i <以上的包>
+
+为了能安装到最新版，偷了个懒，先到 package.json 把对应的 dependencies 中所有@tarojs 开头的先删掉。其中需要说明的是 taro ui 也需要升级，否则会报错。
+
+升级后，如果还不放心，可以输入：
+
+> \>npm-check -u
+
+对所有安装包进行一次升级，升级到最新版本。
+
+## 4. 创建新的项目对照
+
+在 taro/cli 升级到 3 之后，也可以通过输入
+
+> \>taro init newApp
+
+创建一个新的空项目，然后打开 package.json 参考对比安装包的版本号
+
+> \>npm i -D @tarojs/webpack-runner
+
+## 5. 源代码迁移
+
+由于 Taro3 最大的变化是独立于 Reactjs，因此需要在对应的代码中，添加、修改相应的 import，确保 React 及其子组件能够被正确的引入。
+基本就是，涉及到
+
+> import {Component, useState} from '@tarojs/taro'
+
+修改为
+
+> import {Component, useState} from 'react'
+
+前提条件是需要安装最新的 react 包。
+
+## 6. Typescript 支持
+
+如果是用 TS 开发的，则需要在 tsconfig.json 文件中，修改对应的配置：
+
+> "jsx" :"preserve",
+> "jsxFactory":"Taro.createElement",
+
+修改为:
+
+> "jsx":"react",
+> "jsxFactory":"React.createElement",
+
+## 7. Jest 异常修正
+
+升级到 Taro3 后，Jest 的测试意外停止工作，爆出的错误如下：
+
+```javascript
+ path\of\app\node_modules\@tarojs\runtime\dist\runtime.esm.js:1
+    import { isBooleanLiteral } from 'babel-types';
+    ^^^^^^
+
+    SyntaxError: Cannot use import statement outside a module
+
+    > 1 | import Taro from "@tarojs/taro";
+        | ^
+      2 | //import { WxUserInfo, RegUser } from "src/types/ars";
+      3 | import { userLogin } from "./rest";
+      4 | import QQMapWX from "../libs/qqmap-wx-jssdk";
+
+      at Runtime._execModule (node_modules/jest-runtime/build/index.js:1179:56)
+      at Object.<anonymous> (node_modules/@tarojs/taro/node_modules/@tarojs/api/dist/index.js:5:15)
+      at Object.<anonymous> (node_modules/@tarojs/taro/index.js:1:14)
+      at Object.<anonymous> (src/controllers/users.ts:1:1)
+      at Object.<anonymous> (test/simple.test.js:1:36)
+```
+
+翻了 Stackoverflow， 找到原因是：“有些库使用了未经编译的 ES6 代码”造成的，而 Jest 需要这些代码经过编译才能运行”。 [Jest ES6 代码造成 import 语句错误问题](!https://stackoverflow.com/questions/55794280/jest-fails-with-unexpected-token-on-import-statement)
+
+具体的修正方法就是在项目的“jest.config.js”文件中，修改 transformIgnorePatterns 选项，
+将造成错误的@tarojs 库排除：
+
+```javascript
+transformIgnorePatterns: [
+    "<rootDir>/node_modules/(?!(taro-ui|@tarojs)/)",
+  ],
+```
+
+备注： 关于 Taro 开发微信 APP 的测试开发也是一路填坑，我将专门再写一篇文章。
+
+# 补充说明
+
+如果开发过程中使用了 taro ui ，那么还是先暂时不要升级到 Taro 3， 因为 taro-ui 目前的版本还不能支持 Taro3。taro-ui 的 3.0 版本处于 alpha 阶段，有部分控件不能正确工作，所以不能真正用到实际项目开发中。
