@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "C# 版本特性一览"
+title: 'C# 版本特性一览'
 date: 2020-02-24 12:34:56 +0800
 categories: Language
 tag: [Programming, CSharp]
@@ -14,7 +14,7 @@ C# 作为微软.Net 的核心语言，从 2000 年随着.Net 一起诞生以来�
 
 ## C\# 1.0 特性
 
-第 1 个版本，编程语言最基础的特性。
+C\#的第 1 个版本，编程语言最基础的特性。
 
 - Classes：面向对象特性，支持类类型
 
@@ -32,6 +32,8 @@ class Program
 ```
 
 - Structs：结构
+
+类是引用类型，而结构是值类型。
 
 ```C#
 struct DateStruct
@@ -62,7 +64,9 @@ public MyClass:IMyInterface{
 ```
 
 - Delegates：委托
-  一种引用类型,表示对具有特定参数列表和返回类型的方法的引用，可参考设计模式的“代理人模式”。
+
+一种引用类型,表示对具有特定参数列表和返回类型的方法的引用，可参考设计模式的“代理人模式”。
+可以理解为函数指针
 
 ```c#
 //声明委托
