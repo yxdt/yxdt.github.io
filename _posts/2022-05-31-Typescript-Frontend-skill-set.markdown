@@ -2,7 +2,7 @@
 layout: post
 title: Typescript frontend ecosystem
 date: 2022-05-31 10:43:29 + 0800
-categories: [frontend, Typescript]
+categories: [frontend, javascript]
 tag: [frontend]
 ---
 
