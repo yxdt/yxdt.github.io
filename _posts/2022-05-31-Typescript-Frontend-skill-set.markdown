@@ -11,27 +11,24 @@ tag: [frontend]
 
 ## required modules
 
-node
+| # | Name           | 备注          |
+|--| ------ | --------------------------- |
+| 1    | node      |   |
+| 2    | git      |   |
+| 3    | webpack  |   |
+| 4    | rollup   | simpler than webpack, mostly used in library packaging rollup.config.js  |
 
-git
-
-rollup // simpler than webpack rollup.config.js mostly used in library packaging
-
-webpack
 
 ### devDependiency
 
- typescript // tsc
-
- jest // transform, testRegex， npm test, jest --watch
- 
- ts-jest
-
- prettier
-
- husky // precommit in package.json
-
- lint-staged
+| Name   | 备注             |
+| ------ | --------------------------- |
+| typescript    | tsc   |
+| jest  | transform, testRegex, npm test, jest --watch  |
+| ts-jest    | jest for typescript   |
+| prettier    |    |
+| husky | precommit in package.json |
+| lint-staged | lint check |
 
 ### dependiencies
 
